@@ -17,14 +17,7 @@ import javafx.scene.canvas.Canvas;
 public class GUI extends Application {
     @Override
     public void start(Stage stage) {
-
-
-
-
-
-
-
-
+        
         Line line = new Line();
         line.setStartX(0);
         line.setStartY(0);
@@ -32,7 +25,7 @@ public class GUI extends Application {
         line.setEndY(100);
 
         line.setStrokeWidth(10);
-        line.setStroke(Color.RED);
+        line.setStroke(Color.RED);                   
 
         TranslateTransition trans = new TranslateTransition();
         trans.setByX(100);

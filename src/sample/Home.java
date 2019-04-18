@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -21,6 +22,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	Button btnHost,btnPlayer, btnPlayerJoin, btnPlayerJoinTest;
 	Label lblHost;
 	TextField txtPlayer,txtPlayerName;
+	TextArea txtPlayers;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -42,6 +44,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		txtPlayerName = new TextField();
 		txtPlayerName.setPromptText("Name");
 		btnPlayerJoinTest = new Button("Beitreten");
+		txtPlayers = new TextArea();
 		
 		// Actions //
 		btnHost.setOnAction(this);
@@ -56,6 +59,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		//  GridPane => Host //
 		GridPane.setConstraints(lblHost,0,1);
 		GridPane.setConstraints(btnPlayerJoinTest,1,1);
+		GridPane.setConstraints(txtPlayers,0,3);
 
 		//GridPane => Player //
 		GridPane.setConstraints(txtPlayer,0,1);
@@ -67,7 +71,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		root.getChildren().addAll(btnHost,btnPlayer);
 
 		// Add => Host //
-		hostLayout.getChildren().addAll(lblHost,btnPlayerJoinTest);
+		hostLayout.getChildren().addAll(lblHost,btnPlayerJoinTest,txtPlayers);
 		hostScene = new Scene(hostLayout,300,275);
 
 		// Add => Player //
@@ -87,7 +91,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 			window.setScene(hostScene);
 			window.show();
 			
-			Server server = new Server();
+			Server server = new Server(txtPlayers);
 			new Thread(server).start();
 
 
@@ -99,11 +103,11 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		}
 		else if(event.getSource() == btnPlayerJoin){
 			Client player = new Client();
-			player.connect(txtPlayer.getText());
+			player.connect(txtPlayer.getText(), txtPlayerName.getText());
 		}
 		else if(event.getSource() == btnPlayerJoinTest){
 			Client player = new Client();
-			player.connect("localhost");
+			player.connect("localhost","Hallo");
 			System.out.println("Host tritt bei");
 		}
 	}

@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.scene.control.TextArea;
+
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
@@ -11,6 +14,11 @@ public class Server implements Runnable{
 	private boolean isStopped = false;
 	private Thread startedThread = null;
 	private ServerSocket sSocket = null;
+	private TextArea ta;
+
+	public Server(TextArea ta){
+		this.ta = ta;
+	}
 	
 	public void run(){
 
@@ -32,41 +40,12 @@ public class Server implements Runnable{
 						"Error accepting client connection", e);
 			}
 
-				new Thread(new WorkerRunnable(cSocket,"Server")).start();
+				new Thread(new WorkerRunnable(cSocket,"Server",ta)).start();
 
 
 		}
 		System.out.println("Server wurde beendet");
-		
-
-
-
-		  /*
-		while(true) {
-			Socket s = null;
-			
-			try {
-
-
-				//System.out.println("Socket erstellt");
-
-				Socket sock = sSocket.accept();
-
-				//System.out.println("Client ist beigetreten");
-
-				DataInputStream dis = new DataInputStream(sock.getInputStream());
-				DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
-
-				Thread thread = new ClientHandler(sock, dis, dos);
-
-				thread.start();
-
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		}
-
-           */
+	
 	}
 	
 
