@@ -2,7 +2,7 @@ package sample;
 
 public class Controller {
 
-    public void Controlloer(){
+    public void Controller(){
 
             System.out.println("Hello World");
 
