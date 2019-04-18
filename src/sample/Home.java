@@ -76,11 +76,11 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		else if(event.getSource() == btnPlayer){
 			System.out.println("Player");
 			window.setScene(playerScene);
-			Client player = new Client();
-			player.connect(txtPlayer.getText());
+
 		}
 		else if(event.getSource() == btnPlayerJoin){
-			
+			Client player = new Client();
+			player.connect(txtPlayer.getText());
 		}
 	}
 }
