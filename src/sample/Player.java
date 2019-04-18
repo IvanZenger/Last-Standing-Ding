@@ -1,19 +1,37 @@
 package sample;
 
-import javax.swing.*;
-import java.awt.*;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.effect.Reflection;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+
 /**
  @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
  @version 1.0.0
  @since 18.04.2019
  */
-public class Player extends JFrame {
+public class Player {
 
         //Instanzvariablen
         private String color;
         private String name;
         private String ip;
         private boolean hoster;
+
+
+
+
+        public static void main(String[] args){
+            Player test = new Player("Blue", "Nici", "IP", true);
+
+        }
+
 
         /**
          @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
@@ -25,6 +43,8 @@ public class Player extends JFrame {
             this.name = name;
             this.ip = ip;
             this.hoster = hoster;
+
+
         }
 
         /**
@@ -36,57 +56,26 @@ public class Player extends JFrame {
          */
         public void drawLine(String direction){
             //drawLine
+            Pane root = new Pane();
+            root.getStyleClass().add("pane");
 
+            final Circle circle = new Circle(10, 30, 30, Color.FIREBRICK);
+            circle.setEffect(new Reflection());
 
-
-
-            JPanel panel;
-                drawLine();
-            }
-
-            public void drawLine() {
-                JPanel panel = new JPanel() {
-
-                    public void paintComponent(Graphics g, int i) {
-
-                        g.setColor(Color.BLACK);
-                        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-                        g.setColor(Color.RED);
-                        // g.drawLine(100,10,100,100);
-
-                        g.drawArc(100, 100, 450, 450, i, (i + 1));
-
-
-                    }
-                };
-                for (int i = 0; i <360; i++) {
-                    add(panel);
-                    this.setSize(800, 800);
-                    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    this.setVisible(true);
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            Scene scene = new Scene(root,400,400);
 
 
 
         }
 
-        /**
+
+
+
+
+
+
+
+    /**
          @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
          @version 1.0.0
          @since 18.04.2019
@@ -95,4 +84,5 @@ public class Player extends JFrame {
         public void getConnection(){
             //getCommection
         }
+
 }
