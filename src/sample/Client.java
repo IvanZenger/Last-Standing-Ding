@@ -7,7 +7,7 @@ import java.net.Socket;
 public class Client {
 	public static void main(String[] args){
 		try {
-			String ip = "172.16.2.139";
+			String ip = "localhost";
 			int port = 8000;
 			Socket sock = new Socket(ip,port);
 
@@ -17,7 +17,6 @@ public class Client {
 			PrintWriter pw = new PrintWriter(osw);
 
 			osw.write(str);
-			osw.write(1234567);
 			osw.flush();
 
 			sock.close();

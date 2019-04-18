@@ -12,11 +12,11 @@ public class Server {
 		try {
 			System.out.println("Server ist gestartet");
 			ServerSocket ssock = new ServerSocket(8000);
-			System.out.println("Socket erstellt");
+			//System.out.println("Socket erstellt");
 
 			Socket sock = ssock.accept();
 			
-			System.out.println("Client ist beigetreten");
+			//System.out.println("Client ist beigetreten");
 
 			BufferedInputStream br = new BufferedInputStream(sock.getInputStream());
 
