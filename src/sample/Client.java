@@ -7,17 +7,15 @@ import java.util.Scanner;
 
 public class Client {
 
-
-	public static void main(String[] args){
+	public void connect(String ip){
 		try {
 			Scanner scan = new Scanner(System.in);
-			String ip = "localhost";
 			int port = 8000;
 			Socket sock = new Socket(ip,port);
 
 
 			String str = "Hallo";
-			
+
 			OutputStreamWriter osw = new OutputStreamWriter(sock.getOutputStream());
 			PrintWriter pw = new PrintWriter(osw);
 

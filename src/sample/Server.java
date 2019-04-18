@@ -8,14 +8,14 @@ import java.net.Socket;
 
 public class Server {
 
-	public static void main(String[] args){
+	public void server(){
 		try {
 			System.out.println("Server ist gestartet");
 			ServerSocket ssock = new ServerSocket(8000);
 			//System.out.println("Socket erstellt");
 
 			Socket sock = ssock.accept();
-			
+
 			//System.out.println("Client ist beigetreten");
 
 			BufferedInputStream br = new BufferedInputStream(sock.getInputStream());
@@ -26,11 +26,12 @@ public class Server {
 				System.out.print((char)i); //Ausgeben
 			}
 
-			
+
 
 		}
 		catch(Exception e){
-			      System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
+	
 }
