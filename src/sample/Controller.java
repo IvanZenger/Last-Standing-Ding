@@ -1,5 +1,12 @@
 package sample;
 
 public class Controller {
-	       int Hallo;
+
+    public void Controller(){
+
+            System.out.println("Hello World");
+
+
+    }
+
 }
