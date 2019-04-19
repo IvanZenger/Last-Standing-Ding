@@ -19,12 +19,6 @@ public class GUI extends Application {
     public void start(Stage stage) {
 
 
-
-
-
-
-
-
         Line line = new Line();
         line.setStartX(0);
         line.setStartY(0);
@@ -85,7 +79,7 @@ public class GUI extends Application {
 
         Scene scene = new Scene(root, 600, 300);
         scene.setFill(Color.BLACK);
-        stage.setTitle("Translate transition example");
+        stage.setTitle("Animationen Test");
         stage.setScene(scene);
         stage.show();
 
