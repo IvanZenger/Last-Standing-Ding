@@ -12,14 +12,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.exceptions.emptyException;
 
+import javax.swing.*;
 import java.net.*;
 import java.util.Enumeration;
+
 
 
 /**
@@ -32,9 +35,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	Stage window;
 	Scene hostStart,playerScene,playerJoin,hostScene,rootScene;
 	Button btnHost,btnPlayer, btnPlayerJoin, btnHostStart,btnGameStart,btnMainStart;
-	Label lblHost,lblplayer,lblFailureHost,lblFailurePlayer,lblHostIP;
+	Label lblHost,lblplayer,lblFailureHost,lblFailurePlayer,lblHostIP,lblSelectType;
 	TextField txtPlayer,txtPlayerName,txtHostName;
 	TextArea taPlayersHost,taPlayersPlayer;
+	Image imgLogo;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -48,12 +52,24 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	public void start(Stage primaryStage) {
 		window = primaryStage;
 
-		GridPane main = new GridPane();
-		GridPane root = new GridPane(); //start menu
+		StackPane main = new StackPane();
+
+		StackPane root = new StackPane(); //start menu
 		GridPane hosterStart = new GridPane(); //Ab hier kan der Hoster das Spiel starten
 		GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
 		GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 		GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
+
+		main.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+		root.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+		hosterStart.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+		playerLayout.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+		playerJoinLayout.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+		hostLayout.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+
+
+		BackgroundFill bg = new BackgroundFill(Color.rgb(2, 21, 51),new CornerRadii(1),new Insets(0));
+
 
 		btnHost = new Button("Hoster"); //wahl des Types
 		btnPlayer = new Button("Player"); //wahl des Types
@@ -62,6 +78,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		btnGameStart = new Button("Spiel starten"); //Start des Spieles
 		btnMainStart = new Button("Start");
 
+
+
+
+
 		lblHost = new Label("Du Hostest! yey");
 		lblplayer = new Label("Du bist dem Spiel beigetreten! \n Warte bis der Host das Spiel gestartet hat");
 		lblFailureHost = new Label();
@@ -69,6 +89,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		lblFailurePlayer = new Label();
 		lblFailurePlayer.setTextFill(Color.RED);
 		lblHostIP = new Label();
+		lblSelectType = new Label("Wähle einen Typ aus");
 
 		txtPlayer = new TextField();
 		txtPlayer.setPromptText("Host-IP");
@@ -92,11 +113,23 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		btnMainStart.setOnAction(this);
 
 		// GridPane => main //
-		GridPane.setConstraints(btnHostStart,0,1);
+		imgLogo = new Image("https://raw.githubusercontent.com/IvanZenger/Last-Standing-Ding/master/images/My%20Drawing.png");
+		ImageView img1 = new ImageView();
+		img1.setImage(imgLogo);
 
-		// GridPane => root //
-		GridPane.setConstraints(btnHost,1,1);
-		GridPane.setConstraints(btnPlayer,2,1);
+		img1.setFitHeight(300);
+		img1.setFitWidth(500);
+		img1.setX(0);
+		img1.setY(0);
+		btnMainStart.setTranslateY(90);
+
+		AnchorPane.setTopAnchor(img1,0.0);
+		AnchorPane.setBottomAnchor(btnMainStart,20.0);
+
+		// Gestalltung => root //
+		btnHost.setTranslateY(0);
+		btnPlayer.setTranslateY(30);
+		lblSelectType.setTranslateY(-70);
 
 		//  GridPane => HostStart //
 		GridPane.setConstraints(lblHost,0,1);
@@ -122,14 +155,12 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		GridPane.setConstraints(taPlayersPlayer,0,3);
 
 		// Add => main //
-		BackgroundFill myBF = new BackgroundFill(Color.BLUEVIOLET, new CornerRadii(1),
-				new Insets(0.0,0.0,0.0,0.0));
+		main.getChildren().addAll(btnMainStart,img1);
 
-		main.getChildren().addAll(btnMainStart);
-		main.setBackground(new Background(myBF));
+		main.setBackground(new Background(bg));
 
 		// Add => root //
-		root.getChildren().addAll(btnHost,btnPlayer);
+		root.getChildren().addAll(btnHost,btnPlayer,lblSelectType);
 		rootScene = new Scene(root, 300, 275);
 
 		// Add => HostStart //
