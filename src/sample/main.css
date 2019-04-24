@@ -1,0 +1,18 @@
+
+.button {
+    -fx-min-width: 100px;
+    -fx-border: none;
+    -fx-background-color: #0D51E1;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+}
+.button:hover{
+    -fx-background-color: #256afc;
+}
+
+.label{
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+    -fx-text-fill: blue;
+}
