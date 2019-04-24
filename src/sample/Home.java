@@ -20,7 +20,10 @@ import javafx.stage.Stage;
 import sample.exceptions.emptyException;
 
 import javax.swing.*;
-import java.net.*;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 
@@ -33,12 +36,18 @@ import java.util.Enumeration;
 public class Home extends Application implements EventHandler<ActionEvent> {
 
 	Stage window;
-	Scene hostStart,playerScene,playerJoin,hostScene,rootScene;
-	Button btnHost,btnPlayer, btnPlayerJoin, btnHostStart,btnGameStart,btnMainStart;
+	Scene hostStart,playerScene,playerJoin,hostScene,rootScene,backScene,nowScene;
+	Button btnHost,btnPlayer, btnPlayerJoin, btnHostStart,btnGameStart,btnMainStart, btnBackRoot;
 	Label lblHost,lblplayer,lblFailureHost,lblFailurePlayer,lblHostIP,lblSelectType;
 	TextField txtPlayer,txtPlayerName,txtHostName;
 	TextArea taPlayersHost,taPlayersPlayer;
 	Image imgLogo;
+
+	StackPane root = new StackPane(); //start menu
+	GridPane hosterStart = new GridPane(); //Ab hier kan der Hoster das Spiel starten
+	GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
+	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
+	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
 
 	public static void main(String[] args) {
 		launch(args);
@@ -54,11 +63,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 		StackPane main = new StackPane();
 
-		StackPane root = new StackPane(); //start menu
-		GridPane hosterStart = new GridPane(); //Ab hier kan der Hoster das Spiel starten
-		GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
-		GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
-		GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
+
 
 		main.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
 		root.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
@@ -77,8 +82,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		btnHostStart = new Button("Host Starten"); //nach eingabe des Host-Name
 		btnGameStart = new Button("Spiel starten"); //Start des Spieles
 		btnMainStart = new Button("Start");
-
-
+		btnBackRoot= new Button("Zurück");
 
 
 
@@ -86,8 +90,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		lblplayer = new Label("Du bist dem Spiel beigetreten! \n Warte bis der Host das Spiel gestartet hat");
 		lblFailureHost = new Label();
 		lblFailureHost.setTextFill(Color.RED);
+		lblFailureHost.getStyleClass().add("lblFailure");
 		lblFailurePlayer = new Label();
 		lblFailurePlayer.setTextFill(Color.RED);
+		lblFailurePlayer.getStyleClass().add("lblFailure");
 		lblHostIP = new Label();
 		lblSelectType = new Label("Wähle einen Typ aus");
 
@@ -111,6 +117,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		btnHostStart.setOnAction(this);
 		btnGameStart.setOnAction(this);
 		btnMainStart.setOnAction(this);
+		btnBackRoot.setOnAction(this);
 
 		// GridPane => main //
 		imgLogo = new Image("https://raw.githubusercontent.com/IvanZenger/Last-Standing-Ding/master/images/My%20Drawing.png");
@@ -130,6 +137,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		btnHost.setTranslateY(0);
 		btnPlayer.setTranslateY(30);
 		lblSelectType.setTranslateY(-70);
+		btnBackRoot.setTranslateY(70);
 
 		//  GridPane => HostStart //
 		GridPane.setConstraints(lblHost,0,1);
@@ -154,14 +162,18 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		GridPane.setConstraints(lblplayer,0,1);
 		GridPane.setConstraints(taPlayersPlayer,0,3);
 
+
 		// Add => main //
-		main.getChildren().addAll(btnMainStart,img1);
+		main.getChildren().addAll(btnMainStart,img1,btnBackRoot);
 
 		main.setBackground(new Background(bg));
 
 		// Add => root //
-		root.getChildren().addAll(btnHost,btnPlayer,lblSelectType);
+		
+		root.getChildren().addAll(btnHost,btnPlayer,lblSelectType,btnBackRoot);
 		rootScene = new Scene(root, 300, 275);
+		
+		
 
 		// Add => HostStart //
 		hosterStart.getChildren().addAll(lblHost,taPlayersHost,btnGameStart,lblHostIP);
@@ -178,6 +190,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		// Add => playerJoin //
 		playerJoinLayout.getChildren().addAll(taPlayersPlayer,lblplayer);
 		playerJoin = new Scene(playerJoinLayout,300,275);
+		
 
 		primaryStage.setTitle("Last Standing Ding");
 		primaryStage.setScene(new Scene(main, 300, 275));
@@ -192,7 +205,18 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 
-		if(event.getSource() == btnMainStart){
+
+		if(event.getSource() != btnBackRoot){
+				backScene = window.getScene();
+
+
+		}
+		if(event.getSource() == btnBackRoot){
+			System.out.println("Back");
+			window.setScene(backScene);
+			window.show();
+		}
+		else if(event.getSource() == btnMainStart){
 			window.setScene(rootScene);
 		}
 		else if(event.getSource() == btnHost){ // Wen der Type, Host gewählt wurde
@@ -205,9 +229,11 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				Hier wird die IP-Adresse des Hosters ausgelesen
 				 */
 				String hostIP = null;
-				try {
-					hostIP = InetAddress.getLocalHost().getHostAddress();
-
+				try(final DatagramSocket socket = new DatagramSocket()){
+					socket.connect(InetAddress.getByName("8.8.8.8"), 8000);
+					hostIP = socket.getLocalAddress().getHostAddress();
+				} catch (SocketException e) {
+					e.printStackTrace();
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
@@ -258,6 +284,9 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 
 		}
+		
+
 
 	}
+
 }

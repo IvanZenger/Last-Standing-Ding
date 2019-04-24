@@ -48,6 +48,6 @@ public class Client {
 	 */
 	public static void main(String[] args){
 		Client hallo = new Client();
-		hallo.connect("localhost","Ivan");
+		hallo.connect("localhost","\nIvan");
 	}
 }

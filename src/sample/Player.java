@@ -24,9 +24,6 @@ public class Player {
         private String ip;
         private boolean hoster;
 
-
-
-
         public static void main(String[] args){
             Player test = new Player("Blue", "Nici", "IP", true);
 
@@ -64,16 +61,7 @@ public class Player {
 
             Scene scene = new Scene(root,400,400);
 
-
-
         }
-
-
-
-
-
-
-
 
     /**
          @author Nicola Zurbügg / zurbrueggn / NiciAlmighty

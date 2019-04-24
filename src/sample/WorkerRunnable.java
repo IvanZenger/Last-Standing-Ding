@@ -1,9 +1,6 @@
 package sample;
 
 import javafx.scene.control.TextArea;
-import sun.misc.IOUtils;
-import sun.nio.ch.IOUtil;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.stream.Collectors;
@@ -27,8 +24,8 @@ public class WorkerRunnable implements Runnable{
 
 
 			String str = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
-			taHost.appendText(str + "\n");
-			taPlayer.appendText(str + "\n");
+			taHost.appendText("\n" + str);
+			taPlayer.appendText("\n" + str);
 			System.out.println("OUT: " + str);
 			os.close();
 			is.close();

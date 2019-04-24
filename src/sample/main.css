@@ -13,6 +13,10 @@
 
 .label{
     -fx-font-weight: bold;
-    -fx-font-size: 25px;
+    -fx-font-size: 15px;
     -fx-text-fill: blue;
+}
+.lblFailure{
+    -fx-font-weight: 100;
+    -fx-text-fill: red;
 }

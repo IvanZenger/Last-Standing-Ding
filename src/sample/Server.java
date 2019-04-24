@@ -1,10 +1,6 @@
 package sample;
 
 import javafx.scene.control.TextArea;
-
-import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
@@ -31,7 +27,6 @@ public class Server implements Runnable{
 		this.taPlayer = taPlayer;
 
 	}
-
 	/**
 	 * Hier wird der Server gestartet
 	 */
