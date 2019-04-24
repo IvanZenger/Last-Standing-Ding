@@ -3,9 +3,11 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -22,7 +24,7 @@ public class GUI extends Application implements Runnable{
     private double to_y;
     private int line_no = 0;
     private boolean done = false;
-    private double angle = 0;
+    private double angle = 300;
     private int speed = 1;
     Canvas canvas = new Canvas(600, 600);
 
@@ -57,22 +59,25 @@ public class GUI extends Application implements Runnable{
         };
         timer.start();
 
-
+        canvas.setFocusTraversable(true);
         canvas.setOnMouseEntered((a) -> System.out.println("hi"));
         canvas.setOnMousePressed((a) -> System.out.println("focus"));
 
-
-/*
-        canvas.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle (KeyEvent event){
-
-                System.out.println(event.getCharacter());
+        canvas.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case LEFT:
+                    angle+=5;
+                    break;
+                case RIGHT:
+                    angle-=5;
+                    break;
 
             }
-        });
 
+
+
+        });
+        canvas.setOnKeyReleased(event -> System.out.println(event.getCharacter()+ "Gtueb Tag2222"));
    /*     canvas.setOnMousePressed((event) -> setFromPos(event));*/
 
 
@@ -119,7 +124,7 @@ public class GUI extends Application implements Runnable{
         gc.setStroke(Color.BLUE);
         gc.setLineWidth(5);
 
-        angle+=3;
+
 
         to_x = from_x + Math.sin((angle/360)*(2*PI))*speed;
         to_y = from_y + Math.cos((angle/360)*(2*PI))*speed;
@@ -163,103 +168,3 @@ public class GUI extends Application implements Runnable{
 
 
 
-
-
-/*
-public class GUI extends Application {
-    @Override
-    public void start(Stage stage) {
-
-
-        Line line = new Line();
-        line.setStartX(0);
-        line.setStartY(0);
-        line.setEndX(100);
-        line.setEndY(100);
-
-        line.setStrokeWidth(10);
-        line.setStroke(Color.RED);
-
-        TranslateTransition trans = new TranslateTransition();
-        trans.setByX(100);
-        trans.setDuration(Duration.millis(1000));
-        trans.setCycleCount(100);
-        trans.setAutoReverse(true);
-        trans.setNode(line);
-        trans.play();
-
-
-
-
-
-
-
-
-
-
-
-
-        Circle circle = new Circle();
-
-        //Startposition setzen
-        circle.setCenterX(150.0);
-        circle.setCenterY(135.0);
-
-        //Radius
-        circle.setRadius(100.0);
-
-        //Farbe des Kreises auswählen
-        circle.setFill(Color.BROWN);
-
-
-        TranslateTransition translateTransition = new TranslateTransition();
-
-        //Dauer der Animation bestimmen
-        translateTransition.setDuration(Duration.millis(300));
-
-        //referenz auf circle herstellen
-        translateTransition.setNode(circle);
-
-        //verschiebung bestimmen
-        translateTransition.setByX(300);
-
-        //Wiederholungen bestimmen //optional
-        translateTransition.setCycleCount(500);
-
-        //die Animation automatisch umkehren, wenn der eine Weg fertig ist.
-        translateTransition.setAutoReverse(true);
-
-        //Animtation beginnen
-        translateTransition.play();
-
-
-        Group root = new Group(circle, line);
-
-        Scene scene = new Scene(root, 600, 300);
-        scene.setFill(Color.BLACK);
-        stage.setTitle("Animationen Test");
-        stage.setScene(scene);
-        stage.show();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-    public static void main(String args[]){
-        launch(args);
-    }
-}
-
-
-
- */
