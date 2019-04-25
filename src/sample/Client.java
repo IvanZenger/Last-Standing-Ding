@@ -27,6 +27,7 @@ public class Client {
 			PrintWriter pw = new PrintWriter(osw);//Verarebeitung der Ausgabe
 
 			osw.write(name);//Ausgabe zum Server
+		//	osw.write();
 			osw.flush();
 
 			socket.close();
