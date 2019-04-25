@@ -1,26 +1,38 @@
 package sample;
 
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Reflection;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import static java.lang.Math.PI;
+import static sample.GameTestIvan.Direction.LEFT;
+import static sample.GameTestIvan.Direction.RIGHT;
 
 /**
  @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
  @version 1.0.0
  @since 18.04.2019
  */
-public class Player {
+public class Player implements Runnable{
 
         //Instanzvariablen
-        private String color;
+		private double fromX;
+		private double fromY;
+		private double angle;
+        private Color color;
         private String name;
-        private String ip;
-        private boolean hoster;
 
+
+		private double speed = 1.2;
+
+		private GraphicsContext gc;
         public static void main(String[] args){
-            Player test = new Player("Blue", "Nici", "IP", true);
+            //Player test = new Player("Blue", "Nici", "IP", true);
 
         }
 
@@ -30,31 +42,46 @@ public class Player {
          @version 1.0.0
          @since 18.04.2019
          */
-        public Player(String color, String name, String ip, boolean hoster){
-            this.color = color;
+        public Player(double fromX, double fromY, double angle, Color color, String name, GraphicsContext gc){
+        	this.fromX = fromX;
+        	this.fromY = fromY;
+        	this.angle = angle;
+        	this.color = color;
             this.name = name;
-            this.ip = ip;
-            this.hoster = hoster;
-
-
+            this.gc = gc;
+ 
         }
 
         /**
             @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
             @version 1.0.0
             @since 18.04.2019
-            @param direction Um die Richtige Richtung der Kurve zu berechnen
+            
             *Diese Methode rechnet mithilfe der Richtung die nächsten punkte der Linie aus.
          */
-        public void drawLine(String direction){
-            //drawLine
-            Pane root = new Pane();
-            root.getStyleClass().add("pane");
+        public void getNextLine(String direction){
+			gc.setStroke(color);
+			gc.setLineWidth(5);
 
-            final Circle circle = new Circle(10, 30, 30, Color.FIREBRICK);
-            circle.setEffect(new Reflection());
+        	if(direction.equals("LEFT")){
+				this.angle += 8; //Winkel der linie wird um 8 Grad erhöht
+				System.out.println("LEFT");
+			}
+        	else if(direction.equals("RIGHT")){
+				this.angle -= 8;//Winkel der linie wird um 8 Grad verringert
+			}
 
-            Scene scene = new Scene(root,400,400);
+
+			this.fromX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
+			this.fromY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
+
+			//checkOnCrash();
+
+			gc.strokeLine(this.fromX, this.fromY, (this.fromX+1), (this.fromY +1)); //neue Linie zeichnen
+
+			this.fromX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;
+			this.fromY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed;
+			
 
         }
 
@@ -68,5 +95,48 @@ public class Player {
             //getCommection
         }
 
+	public double getFromX() {
+		return fromX;
+	}
 
+	public void setFromX(double fromX) {
+		this.fromX = fromX;
+	}
+
+
+	public double getFromY() {
+		return fromY;
+	}
+
+	public void setFromY(double fromY) {
+		this.fromY = fromY;
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void run() {
+        	System.out.println("THREAD");
+		GUI.getCanvas().setOnKeyPressed(event -> {
+			System.out.println("Hallo");
+			switch (event.getCode()) { //es wird die Taste ausgelesen
+				case LEFT:
+						this.getNextLine("LEFT");
+					break;
+				case RIGHT:
+						this.getNextLine("LEFT");
+					break;
+			}
+		});
+	}
 }

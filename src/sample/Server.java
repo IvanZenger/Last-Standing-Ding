@@ -14,29 +14,28 @@ public class Server implements Runnable{
 	private Thread startedThread = null;
 	private ServerSocket sSocket = null;//Server Socket
 	private TextArea taHost;
-	private TextArea taPlayer;
+	
 
 	/**
 	 * Konstruktor
 	 * @param taHost
-	 * @param taPlayer
+	 * 
 	 */
-	public Server(TextArea taHost, TextArea taPlayer){
-
+	public Server(TextArea taHost){
 		this.taHost = taHost;
-		this.taPlayer = taPlayer;
-
+		
 	}
+
 	/**
 	 * Hier wird der Server gestartet
 	 */
 	public void run(){
 
-
 		synchronized (this){
 			this.startedThread = Thread.currentThread();
 		}
 		openSocket(); //Socket wird geöffnet
+
 		while(!isStopped()){ //Wen der Server nicht gestoppt wurde
 			Socket cSocket = null; //Client Socket
 			try{
@@ -50,7 +49,7 @@ public class Server implements Runnable{
 
 			}
 
-				new Thread(new WorkerRunnable(cSocket,taHost,taPlayer)).start();//Neuer Thread => Client verarbeitung
+				new Thread(new WorkerRunnable(cSocket,taHost)).start();//Neuer Thread => Client verarbeitung
 
 
 		}
@@ -66,6 +65,7 @@ public class Server implements Runnable{
 
 		try {
 			sSocket = new ServerSocket(8000);
+			System.out.println(sSocket);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

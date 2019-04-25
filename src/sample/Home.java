@@ -40,7 +40,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	Button btnHost,btnPlayer, btnPlayerJoin, btnHostStart,btnGameStart,btnMainStart, btnBackRoot;
 	Label lblHost,lblplayer,lblFailureHost,lblFailurePlayer,lblHostIP,lblSelectType;
 	TextField txtPlayer,txtPlayerName,txtHostName;
-	TextArea taPlayersHost,taPlayersPlayer;
+	TextArea taPlayersHost;
 	Image imgLogo;
 
 	StackPane root = new StackPane(); //start menu
@@ -105,10 +105,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		txtHostName.setPromptText("Name: ");
 
 		taPlayersHost = new TextArea();
-		taPlayersPlayer = new TextArea();
+
 
 		taPlayersHost.setEditable(false);
-		taPlayersPlayer.setEditable(false);
+
 
 		// Actions //
 		btnHost.setOnAction(this);
@@ -160,7 +160,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 		//GridPane => PlayerJoin //
 		GridPane.setConstraints(lblplayer,0,1);
-		GridPane.setConstraints(taPlayersPlayer,0,3);
+
 
 
 		// Add => main //
@@ -172,6 +172,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		
 		root.getChildren().addAll(btnHost,btnPlayer,lblSelectType,btnBackRoot);
 		rootScene = new Scene(root, 300, 275);
+	
 		
 		
 
@@ -188,11 +189,12 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		playerScene = new Scene(playerLayout, 300,275);
 
 		// Add => playerJoin //
-		playerJoinLayout.getChildren().addAll(taPlayersPlayer,lblplayer);
+		playerJoinLayout.getChildren().addAll(lblplayer);
 		playerJoin = new Scene(playerJoinLayout,300,275);
 		
 
 		primaryStage.setTitle("Last Standing Ding");
+		primaryStage.setResizable(false);
 		primaryStage.setScene(new Scene(main, 300, 275));
 		primaryStage.show();
 	}
@@ -240,16 +242,16 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 				lblHostIP.setText("Deine IP-Adresse ist: " + hostIP);
 				window.setScene(hostStart);
-				taPlayersHost.appendText(txtHostName.getText()); //Hoster zu der Spileliste zuweisen
+				taPlayersHost.appendText(txtHostName.getText()); //Hoster zu der Spilerliste zuweisen
 
-				Server server = new Server(taPlayersHost, taPlayersPlayer); //Server starten
+				Server server = new Server(taPlayersHost); //Server starten
 				new Thread(server).start();
 			}else{
 				lblFailureHost.setText("Geben sie einen Namen ein!"); //Fehlermeldung, bei leeren Feldern
 			}
 		}
 		else if(event.getSource() == btnPlayer){//Wen der Typ, Player gewählt wurde
-			Server server = new Server(taPlayersHost,taPlayersPlayer);
+			Server server = new Server(taPlayersHost);
 			new Thread(server).start();
 
 
@@ -260,7 +262,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		}
 		else if(event.getSource() == btnPlayerJoin){//Player möchte dem Spiel beitreten
 			Client player = new Client();
-
 
 				try {
 					if(txtPlayerName.getText().equals("")){ //überprüfen ob das Feld für die Namens-eingabe leer ist
