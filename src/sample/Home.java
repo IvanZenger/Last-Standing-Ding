@@ -244,6 +244,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				window.setScene(hostStart);
 				taPlayersHost.appendText(txtHostName.getText()); //Hoster zu der Spilerliste zuweisen
 
+
+				 GUI.playerName.add(txtHostName.getText());
+				
+				
 				Server server = new Server(taPlayersHost); //Server starten
 				new Thread(server).start();
 			}else{
@@ -272,7 +276,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 					else{
 
 						if(player.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
-
+							GUI.playerName.add(txtHostName.getText());
 							window.setScene(playerJoin);
 						}else{
 							lblFailurePlayer.setText("Verbindung ist Fehlgeschlagen! \nüberprüfe deine Angaben"); //Fehlermeldung, wen die Verbindung fehlgeschlagen ist
@@ -284,6 +288,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				}
 
 
+		}
+		else if(event.getSource() == btnGameStart){
+			GUI gui = new GUI();
+			gui.start(window);
 		}
 		
 

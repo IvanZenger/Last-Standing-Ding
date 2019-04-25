@@ -18,8 +18,10 @@ public class WorkerRunnable implements Runnable{
 	private TextArea taHost;
 	private int numberOfPlayers;
 
-	List<String> playerName = new ArrayList<String>();
+	private List<String> playerName = new ArrayList<String>();
 
+
+	
 	public WorkerRunnable(Socket cSocket, TextArea taHost){
 		this.cSocket = cSocket;
 		this.taHost = taHost;
@@ -39,8 +41,8 @@ public class WorkerRunnable implements Runnable{
 			taHost.appendText("\n" + name);
 			System.out.println("OUT: " + name);
 
-			playerName.add(name);
-			
+
+
 			
 
 			os.close();

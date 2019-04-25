@@ -34,23 +34,24 @@ public class GUI extends Application implements Runnable{
     private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
     private Canvas new_line = new Canvas(WIDTH, HEIGHT);
     private GraphicsContext gc = new_line.getGraphicsContext2D();
-	List<Player> players = new ArrayList<Player>();
+	private List<Player> players = new ArrayList<Player>();
 	WorkerRunnable wk = new WorkerRunnable();
-	List<String> playerName = wk.getPlayerName();
-	private int numberOfPlayer = 2; //playerName.size() + 1;
+	
+	public  static List<String> playerName = new ArrayList<String>();
+	private int numberOfPlayer = playerName.size() + 1;
 
+	
 
 
 	private void createPlayer(){
-		 /*for(int i = 0; i < numberOfPlayer; i++){
+		 for(int i = 0; i < numberOfPlayer; i++){
 
-		 	Player player = new Player(WIDTH/numberOfPlayer, HEIGHT/numberOfPlayer, 100, Color.YELLOW, playerName.get(i));
+
+		 	
+		 	Player player = new Player(WIDTH/numberOfPlayer, HEIGHT/numberOfPlayer, 100, Color.YELLOW, playerName.get(i), gc);
 		 	players.add(player);
-		 }  */
-		Player Hallo = new Player(300,300,100,Color.BLUE,"Hallo",gc);
-		Player Hallo2 = new Player(200,200,100,Color.RED,"Hallo",gc);
-		players.add(Hallo);
-		players.add(Hallo2);
+		 }
+
 
 	}
 
@@ -61,12 +62,7 @@ public class GUI extends Application implements Runnable{
         }
     };
 
-    /* Späterer Konstruktor
-    public GUI(){
-        gc.setStroke(Color.BLUE);
-        gc.setLineWidth(5);
-    }*/
-
+ 
     //Override von Application
 
     @Override
@@ -90,6 +86,9 @@ public class GUI extends Application implements Runnable{
         timer.start(); //timer starten
 
 
+
+
+		System.out.println(numberOfPlayer);
 		createPlayer();
 
 
@@ -194,6 +193,8 @@ public class GUI extends Application implements Runnable{
 	public void setGc(GraphicsContext gc) {
 		this.gc = gc;
 	}
+
+	
 }
 
 
