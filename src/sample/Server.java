@@ -1,6 +1,9 @@
 package sample;
 
 import javafx.scene.control.TextArea;
+
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
@@ -40,7 +43,11 @@ public class Server implements Runnable{
 			Socket cSocket = null; //Client Socket
 			try{
 				cSocket = this.sSocket.accept(); //Wartet auf Client
-				
+				OutputStream outputStream = cSocket.getOutputStream();
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+				objectOutputStream.writeObject(GUI.getCanvas());
+				System.out.println("Gesendet");
+
 			} catch(IOException e) {
 				if (isStopped()) {
 					System.out.println("IOException => Server wurde beendet");
