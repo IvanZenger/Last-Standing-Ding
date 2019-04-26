@@ -28,9 +28,13 @@ public class Player implements Runnable{
         private String name;
 
 
+		private double toX;
+		private double toY;
+
 		private double speed = 1.2;
 
 		private GraphicsContext gc;
+
         public static void main(String[] args){
             //Player test = new Player("Blue", "Nici", "IP", true);
 
@@ -59,29 +63,27 @@ public class Player implements Runnable{
             
             *Diese Methode rechnet mithilfe der Richtung die nächsten punkte der Linie aus.
          */
-        public void getNextLine(String direction){
+		public void getNextLine(String direction){
 			gc.setStroke(color);
 			gc.setLineWidth(5);
 
-        	if(direction.equals("LEFT")){
+			if(direction.equals("LEFT")){
 				this.angle += 8; //Winkel der linie wird um 8 Grad erhöht
-				System.out.println("LEFT");
 			}
-        	else if(direction.equals("RIGHT")){
+			else if(direction.equals("RIGHT")){
 				this.angle -= 8;//Winkel der linie wird um 8 Grad verringert
 			}
 
 
-			this.fromX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
-			this.fromY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
+			this.toX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
+			this.toY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
 
 			//checkOnCrash();
 
-			gc.strokeLine(this.fromX, this.fromY, (this.fromX+1), (this.fromY +1)); //neue Linie zeichnen
+			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
 
 			this.fromX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;
 			this.fromY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed;
-			
 
         }
 
@@ -126,15 +128,13 @@ public class Player implements Runnable{
 
 	@Override
 	public void run() {
-        	System.out.println("THREAD");
 		GUI.getCanvas().setOnKeyPressed(event -> {
-			System.out.println("Hallo");
 			switch (event.getCode()) { //es wird die Taste ausgelesen
 				case LEFT:
-						this.getNextLine("LEFT");
+					this.getNextLine("LEFT");
 					break;
 				case RIGHT:
-						this.getNextLine("LEFT");
+					this.getNextLine("RIGHT");
 					break;
 			}
 		});

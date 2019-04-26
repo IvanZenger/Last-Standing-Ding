@@ -255,8 +255,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 			}
 		}
 		else if(event.getSource() == btnPlayer){//Wen der Typ, Player gewählt wurde
-			Server server = new Server(taPlayersHost);
-			new Thread(server).start();
+			//Server server = new Server(taPlayersHost);
+			//new Thread(server).start();
 
 
 			System.out.println("Player");
@@ -276,7 +276,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 					else{
 
 						if(player.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
-							GUI.playerName.add(txtHostName.getText());
+							//GUI.playerName.add(txtPlayerName.getText());
 							window.setScene(playerJoin);
 						}else{
 							lblFailurePlayer.setText("Verbindung ist Fehlgeschlagen! \nüberprüfe deine Angaben"); //Fehlermeldung, wen die Verbindung fehlgeschlagen ist

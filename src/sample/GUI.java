@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class GUI extends Application implements Runnable{
@@ -24,33 +25,70 @@ public class GUI extends Application implements Runnable{
 	private final static int WIDTH = 600;
 	private final static int HEIGHT = 600;
 
-    private double from_x = 100;
-    private double from_y = 300;
-    private double to_x;
-    private double to_y;
-    private int line_no = 0;
-    private double angle = 100;
-    private double speed = 1.2;
-    private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
-    private Canvas new_line = new Canvas(WIDTH, HEIGHT);
-    private GraphicsContext gc = new_line.getGraphicsContext2D();
+	private double from_x = WIDTH / 4;
+	private double from_y = 300;
+	private double to_x;
+	private double to_y;
+	private int line_no = 0;
+	private double angle = 100;
+	private double speed = 1.2;
+	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
+	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
+	private GraphicsContext gc = new_line.getGraphicsContext2D();
 	private List<Player> players = new ArrayList<Player>();
-	WorkerRunnable wk = new WorkerRunnable();
 	
 	public  static List<String> playerName = new ArrayList<String>();
-	private int numberOfPlayer = playerName.size() + 1;
+	private int numberOfPlayer = playerName.size();
 
 	
 
 
 	private void createPlayer(){
-		 for(int i = 0; i < numberOfPlayer; i++){
+		if(numberOfPlayer == 1){
+			from_x = WIDTH/2;
+			from_y = HEIGHT/2;
+		}
+		else if(numberOfPlayer == 2){
+			from_x = WIDTH/3;
+			from_y = HEIGHT/2;
+		}
+		else if(numberOfPlayer == 3){
+			from_x = WIDTH/3;
+			from_y = HEIGHT/1.5;
+		}
+		else if(numberOfPlayer == 4){
+			from_x = WIDTH/3;
+			from_y = HEIGHT/3;
+		}
+		for(int i = 0; i < numberOfPlayer; i++){
 
 
-		 	
-		 	Player player = new Player(WIDTH/numberOfPlayer, HEIGHT/numberOfPlayer, 100, Color.YELLOW, playerName.get(i), gc);
-		 	players.add(player);
-		 }
+			if(numberOfPlayer == 2 && i == 1){
+				from_x = WIDTH/1.5;
+			}
+			else if(numberOfPlayer == 3){
+				if(i == 1){
+					from_x = WIDTH/1.5;
+				}
+				else if(i == 2){
+					from_x = WIDTH/2;
+					from_y = HEIGHT/3;
+				}
+			}
+			else if(numberOfPlayer == 4){
+				if(i == 1){
+					from_x = WIDTH/1.5;
+				}
+				else if(i == 2){
+					from_y = HEIGHT/1.5;
+				}else if(i == 3){
+					from_x = WIDTH/3;
+				}
+			}
+			Player player = new Player(from_x, from_y, 360, newColor(), playerName.get(i), gc);
+			players.add(player);
+			//from_x += margin;
+		}
 
 
 	}
@@ -92,20 +130,10 @@ public class GUI extends Application implements Runnable{
 		createPlayer();
 
 
-		for(int i = 0; i < 2; i++){
+		for(int i = 0; i < numberOfPlayer; i++){
 			new Thread(players.get(i)).run();
 		}
 
-        canvas.setOnKeyPressed(event -> {
-            switch (event.getCode()) { //es wird die Taste ausgelesen
-                case LEFT:
-                        angle += 8; //Winkel der linie wird um 8 Grad erhöht
-                    break;
-                case RIGHT:
-                        angle -= 8;//Winkel der linie wird um 8 Grad verringert
-                    break;
-            }
-        });
       /*    canvas.setOnKeyReleased(event -> System.out.println(event.getCharacter()+ "Gtueb Tag2222"));
       canvas.setOnMousePressed((event) -> setFromPos(event));*/
     }
@@ -119,11 +147,11 @@ public class GUI extends Application implements Runnable{
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < numberOfPlayer; i++) {
 			new Thread(players.get(i)).run();
 		}
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < numberOfPlayer; i++) {
 			players.get(i).getNextLine("FORWARD");
 		}
 
@@ -146,6 +174,16 @@ public class GUI extends Application implements Runnable{
             timer.stop();
         }
     }
+    
+	public Color newColor(){
+		Random random = new Random();
+
+		int red = random.nextInt(255);
+		int green = random.nextInt(255);
+		int blue = random.nextInt(255);
+
+		return Color.rgb(red, green, blue);
+	}
 
 	/*
 
