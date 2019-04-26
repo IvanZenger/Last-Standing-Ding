@@ -1,17 +1,10 @@
 package sample;
 
-import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Reflection;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import static java.lang.Math.PI;
-import static sample.GameTestIvan.Direction.LEFT;
-import static sample.GameTestIvan.Direction.RIGHT;
 
 /**
  @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
@@ -26,12 +19,14 @@ public class Player implements Runnable{
 		private double angle;
         private Color color;
         private String name;
+        private String direction = "NONE";
+        private double changeAngle = 6;
 
 
 		private double toX;
 		private double toY;
 
-		private double speed = 1.2;
+		private double speed = 3;
 
 		private GraphicsContext gc;
 
@@ -63,15 +58,16 @@ public class Player implements Runnable{
             
             *Diese Methode rechnet mithilfe der Richtung die nächsten punkte der Linie aus.
          */
-		public void getNextLine(String direction){
+		public void getNextLine(){
 			gc.setStroke(color);
 			gc.setLineWidth(5);
 
+
 			if(direction.equals("LEFT")){
-				this.angle += 8; //Winkel der linie wird um 8 Grad erhöht
+				this.angle += changeAngle; //Winkel der linie wird um 8 Grad erhöht
 			}
 			else if(direction.equals("RIGHT")){
-				this.angle -= 8;//Winkel der linie wird um 8 Grad verringert
+				this.angle -= changeAngle;//Winkel der linie wird um 8 Grad verringert
 			}
 
 
@@ -80,6 +76,7 @@ public class Player implements Runnable{
 
 			//checkOnCrash();
 
+
 			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
 
 			this.fromX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;
@@ -87,15 +84,34 @@ public class Player implements Runnable{
 
         }
 
-    /**
-         @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
-         @version 1.0.0
-         @since 18.04.2019
-         @description Diese Methode stellt eine Verbindung zum Hoster her oder falls man selbst Hostet wird der Port 8000 geöffnet.
-         */
-        public void getConnection(){
+
+	@Override
+	public void run() {
+		GUI.getCanvas().setOnKeyPressed(event -> {
+			switch (event.getCode()) { //es wird die Taste ausgelesen
+				case LEFT:
+					this.direction = "LEFT";
+					break;
+				case RIGHT:
+					this.direction = "RIGHT";
+					break;
+			}
+		});
+		GUI.getCanvas().setOnKeyReleased(event -> {
+			if (event.getCode() == KeyCode.LEFT && this.direction != "RIGHT" || event.getCode() == KeyCode.RIGHT && this.direction != "LEFT"){
+				this.direction = "NONE";
+			}
+		});
+	}
+
+
+
+
+	public void getConnection(){
             //getCommection
-        }
+	}
+
+
 
 	public double getFromX() {
 		return fromX;
@@ -126,17 +142,16 @@ public class Player implements Runnable{
 		return name;
 	}
 
-	@Override
-	public void run() {
-		GUI.getCanvas().setOnKeyPressed(event -> {
-			switch (event.getCode()) { //es wird die Taste ausgelesen
-				case LEFT:
-					this.getNextLine("LEFT");
-					break;
-				case RIGHT:
-					this.getNextLine("RIGHT");
-					break;
-			}
-		});
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+	public double getToX() {
+		return toX;
+	}
+
+	public double getToY() {
+		return toY;
 	}
 }

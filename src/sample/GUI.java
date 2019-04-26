@@ -2,15 +2,9 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -18,6 +12,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 
 public class GUI extends Application implements Runnable{
@@ -30,18 +25,24 @@ public class GUI extends Application implements Runnable{
 	private double to_x;
 	private double to_y;
 	private int line_no = 0;
-	private double angle = 100;
-	private double speed = 1.2;
+
 	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
+
 	private List<Player> players = new ArrayList<Player>();
 	
 	public  static List<String> playerName = new ArrayList<String>();
 	private int numberOfPlayer = playerName.size();
+	private int [][] test = new int[1200][1200];
 
-	
 
+	private AnimationTimer timer = new AnimationTimer() {
+		@Override
+		public void handle(long now) {
+		update(gc);
+	}
+};
 
 	private void createPlayer(){
 		if(numberOfPlayer == 1){
@@ -89,20 +90,9 @@ public class GUI extends Application implements Runnable{
 			players.add(player);
 			//from_x += margin;
 		}
-
-
 	}
 
-    private AnimationTimer timer = new AnimationTimer() {
-        @Override
-        public void handle(long now) {
-            update(gc);
-        }
-    };
-
- 
     //Override von Application
-
     @Override
     public void start(Stage primaryStage) {
 
@@ -115,20 +105,14 @@ public class GUI extends Application implements Runnable{
         primaryStage.setTitle("Last Standing Ding"); //Titel setzen
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
+      //  canvas.setStyle("-fx-background-color: YELLOW");
         root.getChildren().add(line_no, new_line);
-        root.setStyle("-fx-background-color: BLACK;"); //Hintergrundfarbe setzen
-
+       root.setStyle("-fx-background-color: BLACK;"); //Hintergrundfarbe setzen
 
         timer.start(); //timer starten
 
-
-
-
 		System.out.println(numberOfPlayer);
 		createPlayer();
-
 
 		for(int i = 0; i < numberOfPlayer; i++){
 			new Thread(players.get(i)).run();
@@ -152,13 +136,16 @@ public class GUI extends Application implements Runnable{
 		}
 
 		for (int i = 0; i < numberOfPlayer; i++) {
-			players.get(i).getNextLine("FORWARD");
+		   // players.get(i).setDirection("NONE");
+			System.out.println(gc.getStroke());
+			checkOnCrash(i);
+			players.get(i).getNextLine();
 		}
 
-
 		try {
-			Thread.sleep(10); //geschwindigkeit der Linie regulieren
-		} catch (InterruptedException e) {
+			Thread.sleep(1); //geschwindigkeit der Linie regulieren
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
@@ -168,12 +155,34 @@ public class GUI extends Application implements Runnable{
      * Falls dies so sein sollte, wird der Timer abgebrochen.
      * @version 1.0.0
      */
-    public void checkOnCrash(){
+    public void checkOnCrash(int currentPlayer){
+
+
+
+
       //  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
         if (600 < to_x || 0 > to_x || 600 < to_y || 0 > to_y){
             timer.stop();
         }
-    }
+
+				//System.out.println(test[(int)Math.round(players.get(currentPlayer).getToX())][(int) Math.round(players.get(currentPlayer).getToY())]);
+
+
+        		if (test[(int)Math.round(players.get(currentPlayer).getToX()*2)][(int) Math.round(players.get(currentPlayer).getToY()*2)] == 1){
+				//	System.out.println((int) Math.round(players.get(currentPlayer).getToX()) +" " + players.get(currentPlayer).getToX() + " 	" + (int) Math.round(players.get(currentPlayer).getToY()) + " " + players.get(currentPlayer).getToY());
+        			System.out.println("Ferti");
+					System.out.println(gc.getFill());
+
+
+        		//	timer.stop();
+				}
+        		else {
+				//	System.out.println((int) Math.round(players.get(currentPlayer).getToX()*2) + " " + (int)Math.round(players.get(currentPlayer).getToY()*2));
+					test[(int) Math.round(players.get(currentPlayer).getToX()*2)][(int)Math.round(players.get(currentPlayer).getToY()*2)] = 1;
+				//	System.out.println((int) Math.round(players.get(currentPlayer).getToX()*2) +" " + players.get(currentPlayer).getToX()*2 + " 	" + (int) Math.round(players.get(currentPlayer).getToY()*2) + " " + players.get(currentPlayer).getToY()*2);
+				}
+
+	}
     
 	public Color newColor(){
 		Random random = new Random();
@@ -184,6 +193,7 @@ public class GUI extends Application implements Runnable{
 
 		return Color.rgb(red, green, blue);
 	}
+
 
 	/*
 
