@@ -22,7 +22,6 @@ public class Player implements Runnable{
         private String direction = "NONE";
         private double changeAngle = 6;
 
-
 		private double toX;
 		private double toY;
 

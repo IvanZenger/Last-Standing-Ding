@@ -20,10 +20,10 @@ public class GUI extends Application implements Runnable{
 	private final static int WIDTH = 600;
 	private final static int HEIGHT = 600;
 
-	private double from_x = WIDTH / 4;
-	private double from_y = 300;
-	private double to_x;
-	private double to_y;
+	private double fromX = WIDTH / 4;
+	private double fromY = 300;
+	private double toX = 100;
+	private double toY = 100;
 	private int line_no = 0;
 
 	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
@@ -46,47 +46,47 @@ public class GUI extends Application implements Runnable{
 
 	private void createPlayer(){
 		if(numberOfPlayer == 1){
-			from_x = WIDTH/2;
-			from_y = HEIGHT/2;
+			fromX = WIDTH/2;
+			fromY = HEIGHT/2;
 		}
 		else if(numberOfPlayer == 2){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/2;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/2;
 		}
 		else if(numberOfPlayer == 3){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/1.5;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/1.5;
 		}
 		else if(numberOfPlayer == 4){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/3;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/3;
 		}
 		for(int i = 0; i < numberOfPlayer; i++){
 
 
 			if(numberOfPlayer == 2 && i == 1){
-				from_x = WIDTH/1.5;
+				fromX = WIDTH/1.5;
 			}
 			else if(numberOfPlayer == 3){
 				if(i == 1){
-					from_x = WIDTH/1.5;
+					fromX = WIDTH/1.5;
 				}
 				else if(i == 2){
-					from_x = WIDTH/2;
-					from_y = HEIGHT/3;
+					fromX = WIDTH/2;
+					fromY = HEIGHT/3;
 				}
 			}
 			else if(numberOfPlayer == 4){
 				if(i == 1){
-					from_x = WIDTH/1.5;
+					fromX = WIDTH/1.5;
 				}
 				else if(i == 2){
-					from_y = HEIGHT/1.5;
+					fromY = HEIGHT/1.5;
 				}else if(i == 3){
-					from_x = WIDTH/3;
+					fromX = WIDTH/3;
 				}
 			}
-			Player player = new Player(from_x, from_y, 360, newColor(), playerName.get(i), gc);
+			Player player = new Player(fromX, fromY, 360, newColor(), playerName.get(i), gc);
 			players.add(player);
 			//from_x += margin;
 		}
@@ -111,7 +111,7 @@ public class GUI extends Application implements Runnable{
 
         timer.start(); //timer starten
 
-		System.out.println(numberOfPlayer);
+		//System.out.println(numberOfPlayer);
 		createPlayer();
 
 		for(int i = 0; i < numberOfPlayer; i++){
@@ -137,9 +137,10 @@ public class GUI extends Application implements Runnable{
 
 		for (int i = 0; i < numberOfPlayer; i++) {
 		   // players.get(i).setDirection("NONE");
-			System.out.println(gc.getStroke());
-			checkOnCrash(i);
+		//	System.out.println(gc.getStroke());
+
 			players.get(i).getNextLine();
+			checkOnCrash(i);
 		}
 
 		try {
@@ -161,26 +162,27 @@ public class GUI extends Application implements Runnable{
 
 
       //  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
-        if (600 < to_x || 0 > to_x || 600 < to_y || 0 > to_y){
+        if (toX >= 600 || toX <= 0 || toY >= 600 || toY <= 0){
             timer.stop();
+			System.out.println("Finite");
         }
 
 				//System.out.println(test[(int)Math.round(players.get(currentPlayer).getToX())][(int) Math.round(players.get(currentPlayer).getToY())]);
 
 
-        		if (test[(int)Math.round(players.get(currentPlayer).getToX()*2)][(int) Math.round(players.get(currentPlayer).getToY()*2)] == 1){
+        	//	if (test[(int)(Math.round(players.get(currentPlayer).getToX()*2)-1)][(int) (Math.round(players.get(currentPlayer).getToY()*2)-1)] == 1){
 				//	System.out.println((int) Math.round(players.get(currentPlayer).getToX()) +" " + players.get(currentPlayer).getToX() + " 	" + (int) Math.round(players.get(currentPlayer).getToY()) + " " + players.get(currentPlayer).getToY());
-        			System.out.println("Ferti");
-					System.out.println(gc.getFill());
+        	//		System.out.println("Ferti");
+			//		System.out.println(gc.getFill());
 
 
         		//	timer.stop();
-				}
-        		else {
+			//	}
+        	//	else {
 				//	System.out.println((int) Math.round(players.get(currentPlayer).getToX()*2) + " " + (int)Math.round(players.get(currentPlayer).getToY()*2));
-					test[(int) Math.round(players.get(currentPlayer).getToX()*2)][(int)Math.round(players.get(currentPlayer).getToY()*2)] = 1;
+				//	test[(int) Math.round(players.get(currentPlayer).getToX()*2)][(int)Math.round(players.get(currentPlayer).getToY()*2)] = 1;
 				//	System.out.println((int) Math.round(players.get(currentPlayer).getToX()*2) +" " + players.get(currentPlayer).getToX()*2 + " 	" + (int) Math.round(players.get(currentPlayer).getToY()*2) + " " + players.get(currentPlayer).getToY()*2);
-				}
+			//	}
 
 	}
     
