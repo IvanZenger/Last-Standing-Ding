@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.control.TextArea;
 
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -17,7 +18,7 @@ public class Server implements Runnable{
 	private Thread startedThread = null;
 	private ServerSocket sSocket = null;//Server Socket
 	private TextArea taHost;
-	
+	private Socket cSocket = null; //Client Socket
 
 	/**
 	 * Konstruktor
@@ -40,7 +41,7 @@ public class Server implements Runnable{
 		openSocket(); //Socket wird geöffnet
 
 		while(!isStopped()){ //Wen der Server nicht gestoppt wurde
-			Socket cSocket = null; //Client Socket
+
 			try{
 				cSocket = this.sSocket.accept(); //Wartet auf Client
 				OutputStream outputStream = cSocket.getOutputStream();
@@ -72,9 +73,27 @@ public class Server implements Runnable{
 
 		try {
 			sSocket = new ServerSocket(8000);
-			System.out.println(sSocket);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	public void startGameListeing(){
+
+		while(true){
+			try {
+				cSocket = sSocket.accept();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				ObjectInputStream ois = new ObjectInputStream(cSocket.getInputStream());
+				ObjectOutputStream oos = new ObjectOutputStream(cSocket.getOutputStream());
+
+				new Thread(new ClientHandler(cSocket,ois,oos).start());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 

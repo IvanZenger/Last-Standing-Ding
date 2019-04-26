@@ -16,8 +16,15 @@ public class ClientHandler implements Runnable, Serializable{
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 
+	public ClientHandler(Socket clientSocket, ObjectInputStream ois, ObjectOutputStream oos){
+
+		this.clientSocket = clientSocket;
+		this.ois = ois;
+		this.oos = oos;
+	}
+
 	private InputStream inputStream;
-	private ObjectInputStream objectInputStream;
+	
 	  // Server liest //
 	@Override
 	public void run() {
@@ -26,8 +33,8 @@ public class ClientHandler implements Runnable, Serializable{
 			try {
 
 				inputStream = clientSocket.getInputStream();
-				objectInputStream = new ObjectInputStream(inputStream);
-				int x = (int) objectInputStream.readObject();
+				ois = new ObjectInputStream(inputStream);
+				int x = (int) ois.readObject();
 				System.out.println(x);
 
 			} catch (IOException e) {
