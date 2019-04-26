@@ -18,8 +18,10 @@ public class WorkerRunnable implements Runnable{
 	private TextArea taHost;
 	private int numberOfPlayers;
 
-	List<String> playerName = new ArrayList<String>();
+	private List<String> playerName = new ArrayList<String>();
 
+
+	
 	public WorkerRunnable(Socket cSocket, TextArea taHost){
 		this.cSocket = cSocket;
 		this.taHost = taHost;
@@ -38,10 +40,7 @@ public class WorkerRunnable implements Runnable{
 			String name = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
 			taHost.appendText("\n" + name);
 			System.out.println("OUT: " + name);
-
-			playerName.add(name);
-			
-			
+			GUI.playerName.add(name);
 
 			os.close();
 			is.close();
@@ -52,16 +51,6 @@ public class WorkerRunnable implements Runnable{
 	}
 
 	
-	public Color newColor(){
-		Random random = new Random();
-
-		int red = random.nextInt(255);
-		int green = random.nextInt(255);
-		int blue = random.nextInt(255);
-		
-		return Color.rgb(red, green, blue);
-	}
-
 	public List<String> getPlayerName() {
 		return playerName;
 	}
