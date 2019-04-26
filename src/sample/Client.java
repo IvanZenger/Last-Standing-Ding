@@ -1,9 +1,9 @@
 package sample;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -29,6 +29,10 @@ public class Client implements Runnable{
 			OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());//Ausgabe
 			PrintWriter pw = new PrintWriter(osw);//Verarebeitung der Ausgabe
 
+			InputStream inputStream = socket.getInputStream();
+			ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+			Canvas canvas = (Canvas) objectInputStream.readObject();
+			
 			osw.write(name);//Ausgabe zum Server
 		//	osw.write();
 			osw.flush();
@@ -43,8 +47,10 @@ public class Client implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
-
+		   return true;
 	}
 
 	/**

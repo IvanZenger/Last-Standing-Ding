@@ -15,13 +15,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class GUI extends Application implements Runnable{
-
+public class GUI extends Application implements Runnable {
+	
 	private final static int WIDTH = 600;
 	private final static int HEIGHT = 600;
 
@@ -40,6 +41,8 @@ public class GUI extends Application implements Runnable{
 	public  static List<String> playerName = new ArrayList<String>();
 	private int numberOfPlayer = playerName.size();
 
+	ServerData sd = new ServerData();
+	ClientHandler ch = new ClientHandler();
 	
 
 
@@ -122,7 +125,9 @@ public class GUI extends Application implements Runnable{
 
 
         timer.start(); //timer starten
-
+		
+		new Thread(sd).start();
+		new Thread(ch).start();
 
 
 
@@ -146,6 +151,10 @@ public class GUI extends Application implements Runnable{
 
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
+
+
+
+    	
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
 		for (int i = 0; i < numberOfPlayer; i++) {
 			new Thread(players.get(i)).run();
@@ -232,7 +241,13 @@ public class GUI extends Application implements Runnable{
 		this.gc = gc;
 	}
 
-	
+	public Canvas getNew_line() {
+		return new_line;
+	}
+
+	public void setNew_line(Canvas new_line) {
+		this.new_line = new_line;
+	}
 }
 
 

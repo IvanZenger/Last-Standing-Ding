@@ -277,7 +277,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 						if(player.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
 							//GUI.playerName.add(txtPlayerName.getText());
-							window.setScene(playerJoin);
+
+							//window.setScene(playerJoin);
 						}else{
 							lblFailurePlayer.setText("Verbindung ist Fehlgeschlagen! \nüberprüfe deine Angaben"); //Fehlermeldung, wen die Verbindung fehlgeschlagen ist
 						}
@@ -297,5 +298,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 
 	}
+
 
 }
