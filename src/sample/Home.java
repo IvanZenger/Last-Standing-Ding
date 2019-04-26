@@ -293,6 +293,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		else if(event.getSource() == btnGameStart){
 			GUI gui = new GUI();
 			gui.start(window);
+			ClientHandler ch = new ClientHandler();
+			ServerData sd = new ServerData();
+			new Thread(ch).run();
+			new Thread(sd).run();
 		}
 		
 

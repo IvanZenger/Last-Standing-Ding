@@ -36,7 +36,7 @@ public class ServerData implements Runnable, Serializable{
 
 			try {
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-				objectOutputStream.writeObject("Hallo");
+				objectOutputStream.writeObject(2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
