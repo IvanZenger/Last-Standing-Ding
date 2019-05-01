@@ -32,7 +32,7 @@ public class Client implements Runnable{
 			InputStream inputStream = socket.getInputStream();
 			ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 			Canvas canvas = (Canvas) objectInputStream.readObject();
-			
+
 			osw.write(name);//Ausgabe zum Server
 		//	osw.write();
 			osw.flush();

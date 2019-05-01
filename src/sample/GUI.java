@@ -20,7 +20,6 @@ public class GUI extends Application{
 
 	private double fromX = WIDTH / 4;
 	private double fromY = 300;
-	private int line_no = 0;
 	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
@@ -86,7 +85,7 @@ public class GUI extends Application{
 
 
 
-			Player player = new Player(fromX, fromY, 360, newColor(), playerName.get(i), gc);
+			Player player = new Player(fromX, fromY, 180, newColor(), playerName.get(i), gc);
 			players.add(player);
 			//from_x += margin;
 		}
@@ -107,7 +106,7 @@ public class GUI extends Application{
         primaryStage.show();
 
 
-        root.getChildren().add(line_no, new_line);
+        root.getChildren().add(0, new_line);
         root.setStyle("-fx-background-color: BLACK;"); //Hintergrundfarbe setzen
 
 		createPlayer();
@@ -117,13 +116,10 @@ public class GUI extends Application{
 		//System.out.println(numberOfPlayer);
 
 
-
 		for(int i = 0; i < numberOfPlayer; i++){
 			new Thread(players.get(i)).run();
 		}
 
-      /*    canvas.setOnKeyReleased(event -> System.out.println(event.getCharacter()+ "Gtueb Tag2222"));
-      canvas.setOnMousePressed((event) -> setFromPos(event));*/
     }
 
 
@@ -172,25 +168,6 @@ public class GUI extends Application{
 		return Color.rgb(red, green, blue);
 	}
 
-	/*
-
-	WritableImage writableImage = new_line.snapshot(null, null);
-	//WritableImage writableImage = new WritableImage((int) new_line.getWidth(), (int) new_line.getHeight());
-	// System.out.print(writableImage.getPixelReader().getColor((int) to_x, (int)to_y));
-	Color x = writableImage.getPixelReader().getColor((int) to_x, (int)to_y);
-//  System.out.println(x);
-
-//  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
-        if (600 < to_x || 0 > to_x || 600 < to_y || 0 > to_y || x.equals("0x0000ffff")){
-		timer.stop();
-	}
-            */
-
-//  System.out.println(x.getRed() + " " +x.getGreen() + " " + x.getBlue());
-
-
-
-
 
 	public static int getWIDTH() {
 		return WIDTH;
@@ -218,15 +195,4 @@ public class GUI extends Application{
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
