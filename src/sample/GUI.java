@@ -2,15 +2,9 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -25,10 +19,9 @@ public class GUI extends Application{
 	private final static int WIDTH = 600;
 	private final static int HEIGHT = 600;
 
-	private double from_x = WIDTH / 4;
-	private double from_y = 300;
-	private double to_x;
-	private double to_y;
+
+	private double fromX = WIDTH / 4;
+	private double fromY = 300;
 	private int line_no = 0;
 	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
@@ -48,47 +41,47 @@ public class GUI extends Application{
 
 	public void createPlayer(){
 		if(numberOfPlayer == 1){
-			from_x = WIDTH/2;
-			from_y = HEIGHT/2;
+			fromX = WIDTH/2;
+			fromY = HEIGHT/2;
 		}
 		else if(numberOfPlayer == 2){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/2;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/2;
 		}
 		else if(numberOfPlayer == 3){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/1.5;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/1.5;
 		}
 		else if(numberOfPlayer == 4){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/3;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/3;
 		}
 		for(int i = 0; i < numberOfPlayer; i++){
 
 
 			if(numberOfPlayer == 2 && i == 1){
-				from_x = WIDTH/1.5;
+				fromX = WIDTH/1.5;
 			}
 			else if(numberOfPlayer == 3){
 				if(i == 1){
-					from_x = WIDTH/1.5;
+					fromX = WIDTH/1.5;
 				}
 				else if(i == 2){
-					from_x = WIDTH/2;
-					from_y = HEIGHT/3;
+					fromX = WIDTH/2;
+					fromY = HEIGHT/3;
 				}
 			}
 			else if(numberOfPlayer == 4){
 				if(i == 1){
-					from_x = WIDTH/1.5;
+					fromX = WIDTH/1.5;
 				}
 				else if(i == 2){
-					from_y = HEIGHT/1.5;
+					fromY = HEIGHT/1.5;
 				}else if(i == 3){
-					from_x = WIDTH/3;
+					fromX = WIDTH/3;
 				}
 			}
-			Player player = new Player(from_x, from_y, 360, newColor(), playerName.get(i), gc);
+			Player player = new Player(fromX, fromY, 360, newColor(), playerName.get(i), gc);
 			players.add(player);
 			//from_x += margin;
 		}
@@ -130,6 +123,11 @@ public class GUI extends Application{
 
 
 
+
+
+
+
+
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
@@ -145,7 +143,7 @@ public class GUI extends Application{
 		}
 
 		try {
-			Thread.sleep(10); //geschwindigkeit der Linie regulieren
+			Thread.sleep(1); //geschwindigkeit der Linie regulieren
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -213,7 +211,7 @@ public class GUI extends Application{
 		this.gc = gc;
 	}
 
-	
+
 }
 
 

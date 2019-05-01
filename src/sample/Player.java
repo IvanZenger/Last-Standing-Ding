@@ -3,6 +3,9 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
+
+import java.lang.reflect.Type;
 
 import static java.lang.Math.PI;
 
@@ -23,8 +26,9 @@ public class Player implements Runnable{
         private double changeAngle = 6;
 		private double toX;
 		private double toY;
-		private double speed = 4;
+		private double speed = 2.5;
 		private GraphicsContext gc;
+		private int[][] saveWay = new int[600][600];
 
         /**
          @version 1.0.0
@@ -61,8 +65,15 @@ public class Player implements Runnable{
 			this.toX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
 			this.toY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
 
-			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
+			//gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
+			gc.strokeArc(toX-2, toY-2, 1, 1, 0,360, ArcType.ROUND);
 
+			if (saveWay[(int)toX][(int) toY] != 1){
+				saveWay[(int)toX][(int) toY] = 1;
+			}
+			else{
+				return true;
+			}
 			this.fromX = toX;
 			this.fromY = toY;
 
@@ -89,6 +100,7 @@ public class Player implements Runnable{
 		GUI.getCanvas().setOnKeyReleased(event -> {
 			if (event.getCode() == KeyCode.LEFT && this.direction != "RIGHT" || event.getCode() == KeyCode.RIGHT && this.direction != "LEFT"){
 				this.direction = "NONE";
+
 			}
 		});
 	}
@@ -98,6 +110,9 @@ public class Player implements Runnable{
 		if (600 < toX || 0 > toX || 600 < toY || 0 > toY){
 			return true;
 		}
+//		else if (toX){
+//
+//		}
 		else {
 			return false;
 		}
