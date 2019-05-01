@@ -138,13 +138,13 @@ public class GUI extends Application{
 
 		for (int i = 0; i < numberOfPlayer; i++) {
 			if (players.get(i).getNextLine()){
-				timer.stop();
+				this.timer.stop();
 			}
 
 		}
 
 		try {
-			Thread.sleep(8); //geschwindigkeit der Linie regulieren
+			Thread.sleep(4); //geschwindigkeit der Linie regulieren
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
