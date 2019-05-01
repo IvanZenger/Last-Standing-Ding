@@ -3,6 +3,8 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.ArcType;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -23,13 +25,17 @@ public class Player implements Runnable{
         private Color color;
         private String name;
         private String direction = "NONE";
-        private double changeAngle = 4.8;
+        private int lineCounter = 0;
+        private double changeAngle = 4.4;
 		private double toX = 120;
 		private double toY = 100;
-		private double speed = 2.9;
+		private boolean emptyLine = false;
+		private double speed = 2.8;
 		private GraphicsContext gc;
+		//private static int[][] saveWay = new int[600][600];
+		private int searchField = 3;
 		private static int[][] saveWay = new int[GUI.getWIDTH()][GUI.getHEIGHT()];
-		private int searchField = 2;
+
 		// 4-> speed: min: 3.5	max: 5
 		// 3-> speed: min: 2.8	max:
 		// 2-> speed: min: 2.1	max:
@@ -82,10 +88,33 @@ public class Player implements Runnable{
 			this.toX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
 			this.toY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
 
-			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
+
+
 			//gc.strokeArc(toX-2, toY-2, 1, 1, 0,360, ArcType.ROUND);
 
-			if (checkOnCrash()){
+
+			if (lineCounter% 120 > 20 && lineCounter > 21){
+				gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
+				emptyLine = false;
+			}
+			else {
+				Paint color = gc.getStroke();
+				gc.setStroke(Color.BLACK);
+				int x = queue.peek();
+				queue.remove();
+				int y = queue.peek();
+				queue.remove();
+				queue.add(x);
+				queue.add(y);
+				gc.strokeArc(x-1, y-1, 3, 3, 0,360, ArcType.ROUND);
+				gc.setStroke(color);
+				gc.strokeArc(toX-1, toY-1, 1, 1, 0,360, ArcType.ROUND);
+
+				emptyLine = true;
+			}
+
+
+			if (checkOnCrash(emptyLine)){
 				return true;
 			}
 
@@ -115,7 +144,7 @@ public class Player implements Runnable{
 		});
 	}
 
-	public boolean checkOnCrash(){
+	public boolean checkOnCrash(boolean emptyLine){
 		//  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
 
 		int secondLastX = queue.peek();
@@ -174,7 +203,7 @@ public class Player implements Runnable{
 	catch (ArrayIndexOutOfBoundsException e){ //wenn man zu nahe an den Rand fährt
 		return true;
 	}
-	if (saveWay[(int)toX][(int) toY] == 0){
+	if (saveWay[(int)toX][(int) toY] == 0 && !emptyLine){
 		saveWay[(int)toX][(int) toY] = 1;
 		return false;
 	}
