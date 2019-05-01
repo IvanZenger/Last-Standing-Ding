@@ -69,7 +69,7 @@ public class Player implements Runnable{
 		public boolean getNextLine(){
 
 
-
+			lineCounter++;
 			queue.add((int)toX);
 			queue.add((int)toY);
 
@@ -93,7 +93,7 @@ public class Player implements Runnable{
 			//gc.strokeArc(toX-2, toY-2, 1, 1, 0,360, ArcType.ROUND);
 
 
-			if (lineCounter% 120 > 20 && lineCounter > 21){
+			if (lineCounter % 120 > 20 && lineCounter > 21){
 				gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
 				emptyLine = false;
 			}
