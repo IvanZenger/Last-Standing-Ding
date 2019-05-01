@@ -117,17 +117,11 @@ public class GUI extends Application{
 
 
 		for(int i = 0; i < numberOfPlayer; i++){
-			new Thread(players.get(i)).run();
+			new Thread(players.get(i)).start();
 		}
 
     }
-
-
-
-
-
-
-
+    
 
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
@@ -161,9 +155,19 @@ public class GUI extends Application{
 	public Color newColor(){
 		Random random = new Random();
 
-		int red = random.nextInt(255);
-		int green = random.nextInt(255);
-		int blue = random.nextInt(255);
+		int red;
+		int green;
+		int blue;
+
+		int counter = 0;
+
+		do {
+			red = random.nextInt(255);
+			green = random.nextInt(255);
+			blue = random.nextInt(255);
+			counter++;
+			
+		}while(red + green + blue < 400 && counter < 20);
 
 		return Color.rgb(red, green, blue);
 	}
