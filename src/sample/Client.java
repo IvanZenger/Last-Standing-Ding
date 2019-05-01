@@ -48,7 +48,7 @@ public class Client{
 			e.printStackTrace();
 			return false;
 		}
-		   
+
 	}
 
 	/**
@@ -58,7 +58,6 @@ public class Client{
 	public static void main(String[] args){
 		Client hallo = new Client();
 		hallo.connect("localhost","Ivan");
-		new ServerData().run();
 	}
 
 

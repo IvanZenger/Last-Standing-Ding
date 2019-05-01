@@ -19,22 +19,22 @@ public class Player implements Runnable{
         //Instanzvariablen
 		private double fromX;
 		private double fromY;
-		private double angle;
+		private double angle = 90;
         private Color color;
         private String name;
         private String direction = "NONE";
-        private double changeAngle = 5.6;
+        private double changeAngle = 4.8;
 		private double toX = 120;
 		private double toY = 100;
-		private double speed = 4.1;
+		private double speed = 2.9;
 		private GraphicsContext gc;
 		private static int[][] saveWay = new int[600][600];
-		private int searchField = 3;
+		private int searchField = 2;
 		// 4-> speed: min: 3.5	max: 5
 		// 3-> speed: min: 2.8	max:
 		// 2-> speed: min: 2.1	max:
 
-		private Queue<Integer> p = new LinkedList<>();
+		private Queue<Integer> queue = new LinkedList<>();
 
 
 		/**
@@ -64,8 +64,8 @@ public class Player implements Runnable{
 
 
 
-			p.add((int)toX);
-			p.add((int)toY);
+			queue.add((int)toX);
+			queue.add((int)toY);
 
 
 			gc.setStroke(color);
@@ -118,10 +118,10 @@ public class Player implements Runnable{
 	public boolean checkOnCrash(){
 		//  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
 
-		int secondLastX = p.peek();
-		p.remove();
-		int secondLastY = p.peek();
-		p.remove();
+		int secondLastX = queue.peek();
+		queue.remove();
+		int secondLastY = queue.peek();
+		queue.remove();
 
 	//	System.out.println(secondLastX + " " + secondLastY + "     " + toX + " " + toY);
 
@@ -134,47 +134,52 @@ public class Player implements Runnable{
 		}
 
 		//oben Links suchen
-		for (int i = 1; i<= searchField; i++){
-			for (int j = 1; j <= searchField; j++){
-				if (saveWay[(int)toX-i][(int) toY-j] == 1 && (int)toX-i != fromX && (int) toY-j != fromY && (int) toX-i != secondLastX && (int) toY-j != secondLastY){
-					return true;
-				}
+	try {
+
+	for (int i = 1; i <= searchField; i++) {
+		for (int j = 1; j <= searchField; j++) {
+			if (saveWay[(int) toX - i][(int) toY - j] == 1 && (int) toX - i != fromX && (int) toY - j != fromY && (int) toX - i != secondLastX && (int) toY - j != secondLastY) {
+				return true;
 			}
 		}
+	}
 //oben rechts suchen
-		for (int i = 1; i<= searchField; i++){
-			for (int j = 1; j <= searchField; j++){
+	for (int i = 1; i <= searchField; i++) {
+		for (int j = 1; j <= searchField; j++) {
 
-				if (saveWay[(int)toX+i][(int) toY-j] == 1 && (int)toX+i != fromX && (int) toY-j != fromY && (int) toX+i != secondLastX && (int) toY+j != secondLastY){
-					return true;
-				}
+			if (saveWay[(int) toX + i][(int) toY - j] == 1 && (int) toX + i != fromX && (int) toY - j != fromY && (int) toX + i != secondLastX && (int) toY + j != secondLastY) {
+				return true;
 			}
 		}
+	}
 //unten links suchen
-		for (int i = 1; i<= searchField; i++){
-			for (int j = 1; j <= searchField; j++){
+	for (int i = 1; i <= searchField; i++) {
+		for (int j = 1; j <= searchField; j++) {
 
-				if (saveWay[(int)toX-i][(int) toY+j] == 1 && (int)toX-i != fromX && (int) toY+j != fromY && (int) toX-i != secondLastX && (int) toY-j != secondLastY){
-					return true;
-				}
+			if (saveWay[(int) toX - i][(int) toY + j] == 1 && (int) toX - i != fromX && (int) toY + j != fromY && (int) toX - i != secondLastX && (int) toY - j != secondLastY) {
+				return true;
 			}
 		}
+	}
 //unten rechts suchen
-		for (int i = 1; i<= searchField; i++){
-			for (int j = 1; j <= searchField; j++){
+	for (int i = 1; i <= searchField; i++) {
+		for (int j = 1; j <= searchField; j++) {
 
-				if (saveWay[(int)toX+i][(int) toY+j] == 1 && (int)toX+i != fromX && (int) toY+j != fromY && (int) toX+i != secondLastX && (int) toY+j != secondLastY){
-					return true;
-				}
+			if (saveWay[(int) toX + i][(int) toY + j] == 1 && (int) toX + i != fromX && (int) toY + j != fromY && (int) toX + i != secondLastX && (int) toY + j != secondLastY) {
+				return true;
 			}
 		}
-
-		if (saveWay[(int)toX][(int) toY] == 0){
-			saveWay[(int)toX][(int) toY] = 1;
-			return false;
-		}
-
+	}
+	}
+	catch (ArrayIndexOutOfBoundsException e){ //wenn man zu nahe an den Rand fährt
+		return true;
+	}
+	if (saveWay[(int)toX][(int) toY] == 0){
+		saveWay[(int)toX][(int) toY] = 1;
 		return false;
+	}
+
+	return false;
 
 	}
 
