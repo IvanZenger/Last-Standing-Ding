@@ -9,9 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class GUI extends Application{
@@ -81,6 +79,13 @@ public class GUI extends Application{
 					fromX = WIDTH/3;
 				}
 			}
+
+
+
+
+
+
+
 			Player player = new Player(fromX, fromY, 360, newColor(), playerName.get(i), gc);
 			players.add(player);
 			//from_x += margin;
@@ -143,7 +148,7 @@ public class GUI extends Application{
 		}
 
 		try {
-			Thread.sleep(1); //geschwindigkeit der Linie regulieren
+			Thread.sleep(8); //geschwindigkeit der Linie regulieren
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

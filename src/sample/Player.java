@@ -3,9 +3,9 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 
-import java.lang.reflect.Type;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import static java.lang.Math.PI;
 
@@ -23,34 +23,51 @@ public class Player implements Runnable{
         private Color color;
         private String name;
         private String direction = "NONE";
-        private double changeAngle = 6;
-		private double toX;
-		private double toY;
-		private double speed = 2.5;
+        private double changeAngle = 5.6;
+		private double toX = 120;
+		private double toY = 100;
+		private double speed = 4.1;
 		private GraphicsContext gc;
-		private int[][] saveWay = new int[600][600];
+		private static int[][] saveWay = new int[600][600];
+		private int searchField = 3;
+		// 4-> speed: min: 3.5	max: 5
+		// 3-> speed: min: 2.8	max:
+		// 2-> speed: min: 2.1	max:
 
-        /**
+		private Queue<Integer> p = new LinkedList<>();
+
+
+		/**
          @version 1.0.0
          @since 18.04.2019
          */
         public Player(double fromX, double fromY, double angle, Color color, String name, GraphicsContext gc){
         	this.fromX = fromX;
-        	this.fromY = fromY;
+			this.fromY = fromY;
         	this.angle = angle;
         	this.color = color;
             this.name = name;
             this.gc = gc;
+
         }
+
+
+
 
         /**
 
             @version 1.0.0
             @since 18.04.2019
-            
             *Diese Methode rechnet mithilfe der Richtung die nächsten punkte der Linie aus.
          */
 		public boolean getNextLine(){
+
+
+
+			p.add((int)toX);
+			p.add((int)toY);
+
+
 			gc.setStroke(color);
 			gc.setLineWidth(5);
 
@@ -65,24 +82,17 @@ public class Player implements Runnable{
 			this.toX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
 			this.toY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
 
-			//gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
-			gc.strokeArc(toX-2, toY-2, 1, 1, 0,360, ArcType.ROUND);
-
-			if (saveWay[(int)toX][(int) toY] != 1){
-				saveWay[(int)toX][(int) toY] = 1;
-			}
-			else{
-				return true;
-			}
-			this.fromX = toX;
-			this.fromY = toY;
+			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
+			//gc.strokeArc(toX-2, toY-2, 1, 1, 0,360, ArcType.ROUND);
 
 			if (checkOnCrash()){
 				return true;
 			}
-			else {
-				return false;
-			}
+
+			this.fromX = toX;
+			this.fromY = toY;
+
+			return false;
         }
 
 	@Override
@@ -107,18 +117,66 @@ public class Player implements Runnable{
 
 	public boolean checkOnCrash(){
 		//  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
-		if (600 < toX || 0 > toX || 600 < toY || 0 > toY){
+
+		int secondLastX = p.peek();
+		p.remove();
+		int secondLastY = p.peek();
+		p.remove();
+
+	//	System.out.println(secondLastX + " " + secondLastY + "     " + toX + " " + toY);
+
+		if (toX >= 600 || toX <= 0 || toY >= 600 || toY <= 0){
 			return true;
 		}
-//		else if (toX){
-//
-//		}
-		else {
+
+		else if (saveWay[(int)toX][(int) toY] == 1){
+			return true;
+		}
+
+		//oben Links suchen
+		for (int i = 1; i<= searchField; i++){
+			for (int j = 1; j <= searchField; j++){
+				if (saveWay[(int)toX-i][(int) toY-j] == 1 && (int)toX-i != fromX && (int) toY-j != fromY && (int) toX-i != secondLastX && (int) toY-j != secondLastY){
+					return true;
+				}
+			}
+		}
+//oben rechts suchen
+		for (int i = 1; i<= searchField; i++){
+			for (int j = 1; j <= searchField; j++){
+
+				if (saveWay[(int)toX+i][(int) toY-j] == 1 && (int)toX+i != fromX && (int) toY-j != fromY && (int) toX+i != secondLastX && (int) toY+j != secondLastY){
+					return true;
+				}
+			}
+		}
+//unten links suchen
+		for (int i = 1; i<= searchField; i++){
+			for (int j = 1; j <= searchField; j++){
+
+				if (saveWay[(int)toX-i][(int) toY+j] == 1 && (int)toX-i != fromX && (int) toY+j != fromY && (int) toX-i != secondLastX && (int) toY-j != secondLastY){
+					return true;
+				}
+			}
+		}
+//unten rechts suchen
+		for (int i = 1; i<= searchField; i++){
+			for (int j = 1; j <= searchField; j++){
+
+				if (saveWay[(int)toX+i][(int) toY+j] == 1 && (int)toX+i != fromX && (int) toY+j != fromY && (int) toX+i != secondLastX && (int) toY+j != secondLastY){
+					return true;
+				}
+			}
+		}
+
+		if (saveWay[(int)toX][(int) toY] == 0){
+			saveWay[(int)toX][(int) toY] = 1;
 			return false;
 		}
+
+		return false;
+
 	}
-
-
 
 
 	//Getter / Setter
