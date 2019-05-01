@@ -48,7 +48,7 @@ public class Server implements Runnable{
 		while(!isStopped()){ //Wen der Server nicht gestoppt wurde
 			System.out.println(isStopped);
 			try{
-				cSocket = this.sSocket.accept(); //Wartet auf Client
+				cSocket = sSocket.accept(); //Wartet auf Client
 				OutputStream outputStream = cSocket.getOutputStream();
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 				//objectOutputStream.writeObject(GUI.getCanvas());
@@ -83,6 +83,7 @@ public class Server implements Runnable{
 
 		try {
 			sSocket = new ServerSocket(8000);
+			setsSocket(sSocket);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,5 +100,8 @@ public class Server implements Runnable{
 	public static ServerSocket getsSocket() {
 		return sSocket;
 	}
-	
+
+	public static void setsSocket(ServerSocket sSocket) {
+		Server.sSocket = sSocket;
+	}
 }

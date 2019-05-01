@@ -48,6 +48,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
 	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
+	GridPane game = new GridPane();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -278,6 +279,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 						if(player.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
 							//GUI.playerName.add(txtPlayerName.getText());
 
+							//game.getChildren().add(GUI.getCanvas());
+
+							 //window.setScene(new Scene(game,600,900));
+
 							//window.setScene(playerJoin);
 						}else{
 							lblFailurePlayer.setText("Verbindung ist Fehlgeschlagen! \nüberprüfe deine Angaben"); //Fehlermeldung, wen die Verbindung fehlgeschlagen ist
@@ -293,7 +298,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		else if(event.getSource() == btnGameStart){
 			GUI gui = new GUI();
 			new Thread(new RequestMessage()).start();
-			gui.start(window);
+			//gui.start(window);
 		}
 		
 

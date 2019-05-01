@@ -20,7 +20,7 @@ public class GUI extends Application{
 
 	private double fromX = WIDTH / 4;
 	private double fromY = 300;
-	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
+	private static MyCanvas canvas = new MyCanvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
 	private List<Player> players = new ArrayList<Player>();
@@ -169,7 +169,7 @@ public class GUI extends Application{
 			
 		}while(red + green + blue < 400 && counter < 20);
 
-		return Color.rgb(red, green, blue);
+		return Color.rgb(red, green, blue,1);
 	}
 
 
@@ -181,11 +181,11 @@ public class GUI extends Application{
 		return HEIGHT;
 	}
 
-	public static Canvas getCanvas() {
+	public static MyCanvas getCanvas() {
 		return canvas;
 	}
 
-	public static void setCanvas(Canvas canvas) {
+	public static void setCanvas(MyCanvas canvas) {
 		GUI.canvas = canvas;
 	}
 

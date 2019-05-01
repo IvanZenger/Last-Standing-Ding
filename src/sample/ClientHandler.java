@@ -16,9 +16,9 @@ public class ClientHandler implements Runnable{
 	private Socket clientSocket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
-	private Canvas canvas;
+	private MyCanvas canvas;
 
-	public ClientHandler(Socket clientSocket, ObjectInputStream ois, ObjectOutputStream oos, Canvas canvas){
+	public ClientHandler(Socket clientSocket, ObjectInputStream ois, ObjectOutputStream oos, MyCanvas canvas){
 
 		this.clientSocket = clientSocket;                                                            
 		this.ois = ois;
@@ -36,7 +36,8 @@ public class ClientHandler implements Runnable{
 				//canvas canvasSer = new canvas();
 				ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
 				//System.out.println(canvasSer.getProperties());
-				oos.writeObject(canvas);
+				MyCanvas hallo = new MyCanvas(600,900);
+				oos.writeObject(hallo);
 				oos.flush();
 				
 				ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());

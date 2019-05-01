@@ -33,8 +33,7 @@ public class WorkerRunnable implements Runnable{
 		try{
 			InputStream is = cSocket.getInputStream();
 			OutputStream os = cSocket.getOutputStream();
-
-
+			
 			String name = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
 			taHost.appendText("\n" + name);
 			System.out.println("OUT: " + name);
