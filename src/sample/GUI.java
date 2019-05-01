@@ -2,15 +2,9 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -20,18 +14,15 @@ import java.util.List;
 import java.util.Random;
 
 
-public class GUI extends Application implements Runnable{
+public class GUI extends Application{
 
 	private final static int WIDTH = 600;
 	private final static int HEIGHT = 600;
 
-	private double from_x = WIDTH / 4;
-	private double from_y = 300;
-	private double to_x;
-	private double to_y;
+
+	private double fromX = WIDTH / 4;
+	private double fromY = 300;
 	private int line_no = 0;
-	private double angle = 100;
-	private double speed = 1.2;
 	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
@@ -39,70 +30,64 @@ public class GUI extends Application implements Runnable{
 	
 	public  static List<String> playerName = new ArrayList<String>();
 	private int numberOfPlayer = playerName.size();
-
+	private AnimationTimer timer = new AnimationTimer() {
+		@Override
+		public void handle(long now) {
+			update(gc);
+		}
+	};
 	
 
 
 	public void createPlayer(){
 		if(numberOfPlayer == 1){
-			from_x = WIDTH/2;
-			from_y = HEIGHT/2;
+			fromX = WIDTH/2;
+			fromY = HEIGHT/2;
 		}
 		else if(numberOfPlayer == 2){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/2;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/2;
 		}
 		else if(numberOfPlayer == 3){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/1.5;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/1.5;
 		}
 		else if(numberOfPlayer == 4){
-			from_x = WIDTH/3;
-			from_y = HEIGHT/3;
+			fromX = WIDTH/3;
+			fromY = HEIGHT/3;
 		}
 		for(int i = 0; i < numberOfPlayer; i++){
 
 
 			if(numberOfPlayer == 2 && i == 1){
-				from_x = WIDTH/1.5;
+				fromX = WIDTH/1.5;
 			}
 			else if(numberOfPlayer == 3){
 				if(i == 1){
-					from_x = WIDTH/1.5;
+					fromX = WIDTH/1.5;
 				}
 				else if(i == 2){
-					from_x = WIDTH/2;
-					from_y = HEIGHT/3;
+					fromX = WIDTH/2;
+					fromY = HEIGHT/3;
 				}
 			}
 			else if(numberOfPlayer == 4){
 				if(i == 1){
-					from_x = WIDTH/1.5;
+					fromX = WIDTH/1.5;
 				}
 				else if(i == 2){
-					from_y = HEIGHT/1.5;
+					fromY = HEIGHT/1.5;
 				}else if(i == 3){
-					from_x = WIDTH/3;
+					fromX = WIDTH/3;
 				}
 			}
-			Player player = new Player(from_x, from_y, 360, newColor(), playerName.get(i), gc);
+			Player player = new Player(fromX, fromY, 360, newColor(), playerName.get(i), gc);
 			players.add(player);
 			//from_x += margin;
 		}
-
-
 	}
 
-    private AnimationTimer timer = new AnimationTimer() {
-        @Override
-        public void handle(long now) {
-            update(gc);
-        }
-    };
-
- 
     //Override von Application
-
     @Override
     public void start(Stage primaryStage) {
 
@@ -120,14 +105,12 @@ public class GUI extends Application implements Runnable{
         root.getChildren().add(line_no, new_line);
         root.setStyle("-fx-background-color: BLACK;"); //Hintergrundfarbe setzen
 
-
+		createPlayer();
         timer.start(); //timer starten
 
 
+		//System.out.println(numberOfPlayer);
 
-
-		System.out.println(numberOfPlayer);
-		createPlayer();
 
 
 		for(int i = 0; i < numberOfPlayer; i++){
@@ -138,11 +121,12 @@ public class GUI extends Application implements Runnable{
       canvas.setOnMousePressed((event) -> setFromPos(event));*/
     }
 
-    //Override von runnable
-    @Override
-    public void run() {
-        launch();
-    }
+
+
+
+
+
+
 
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
@@ -152,28 +136,26 @@ public class GUI extends Application implements Runnable{
 		}
 
 		for (int i = 0; i < numberOfPlayer; i++) {
-			players.get(i).getNextLine();
+			if (players.get(i).getNextLine()){
+				timer.stop();
+			}
+
 		}
 
-
 		try {
-			Thread.sleep(10); //geschwindigkeit der Linie regulieren
+			Thread.sleep(1); //geschwindigkeit der Linie regulieren
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
+
     /**
-     * @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
      * Diese Methode checkt, ob sich der Spieler auserhalb des Spielfeldes oder auf einer anderen Linie befindet.
      * Falls dies so sein sollte, wird der Timer abgebrochen.
      * @version 1.0.0
      */
-    public void checkOnCrash(){
-      //  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
-        if (600 < to_x || 0 > to_x || 600 < to_y || 0 > to_y){
-            timer.stop();
-        }
-    }
+
+
     
 	public Color newColor(){
 		Random random = new Random();
@@ -204,9 +186,6 @@ public class GUI extends Application implements Runnable{
 
 
 
-	public static void main(String[] args) {
-        launch(args);
-    }
 
 	public static int getWIDTH() {
 		return WIDTH;
@@ -232,7 +211,7 @@ public class GUI extends Application implements Runnable{
 		this.gc = gc;
 	}
 
-	
+
 }
 
 
