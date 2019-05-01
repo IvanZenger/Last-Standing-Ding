@@ -20,10 +20,7 @@ import javafx.stage.Stage;
 import sample.exceptions.emptyException;
 
 import javax.swing.*;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Enumeration;
 
 
@@ -49,6 +46,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
 
+
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -207,6 +206,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 
+		Server server = new Server(taPlayersHost, false);
 
 		if(event.getSource() != btnBackRoot){
 				backScene = window.getScene();
@@ -246,10 +246,12 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 
 				 GUI.playerName.add(txtHostName.getText());
-				
-				
-				Server server = new Server(taPlayersHost); //Server starten
+
+
+
 				new Thread(server).start();
+				
+
 			}else{
 				lblFailureHost.setText("Geben sie einen Namen ein!"); //Fehlermeldung, bei leeren Feldern
 			}
@@ -292,11 +294,15 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		}
 		else if(event.getSource() == btnGameStart){
 			GUI gui = new GUI();
-			gui.start(window);
-			ClientHandler ch = new ClientHandler();
-			ServerData sd = new ServerData();
-			new Thread(ch).run();
-			new Thread(sd).run();
+			//gui.start(window);
+
+			new Thread(new RequestMessage()).start();
+			
+			//ClientHandler ch = new ClientHandler();
+
+
+			//ServerData sd = new ServerData();
+			//new Thread(sd).run();
 		}
 		
 

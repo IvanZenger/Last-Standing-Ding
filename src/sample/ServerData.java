@@ -1,69 +1,69 @@
 package sample;
 
+
+import com.sun.javafx.image.IntPixelGetter;
 import javafx.scene.canvas.Canvas;
 
+
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-import static com.sun.org.apache.xml.internal.serializer.utils.Utils.messages;
 
-public class ServerData implements Runnable, Serializable{
+public class ServerData implements Runnable{
 
-	private static final long serialVersionUID = 1L;
+	private Canvas canvas;
+	//private static final long serialVersionUID = 1L;
 
 
 	@Override
 	public void run() {
 		int port = 8000;
-		Canvas canvas;
+		//Canvas canvas;
+
+		System.out.println("run sd");
+
+		InputStream inputStream = null;
+		ObjectInputStream objectInputStream = null;
+		OutputStream outputStream = null;
+		Socket socket = null;
+		try {
+			socket = new Socket("127.0.0.1", port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		while (true) {
-			Socket socket = null;
+			try {
+				//System.out.println("try Client");
 
+				//System.out.println("1");
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+				Integer objServer = 333;
+				objectOutputStream.writeObject(objServer);
+				objectOutputStream.flush();
 
-			try {
-				socket = new Socket("172.16.1.139", port);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			OutputStream outputStream = null;
-			try {
-				outputStream = socket.getOutputStream();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				//System.out.println("1.1");
 
-			try {
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-				objectOutputStream.writeObject(2);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-
-			InputStream inputStream = null;
-			try {
-				inputStream = socket.getInputStream();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			ObjectInputStream objectInputStream = null;
-			try {
-				objectInputStream = new ObjectInputStream(inputStream);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
+				//System.out.println("2");
+				objectInputStream = new ObjectInputStream(socket.getInputStream());
 				canvas = (Canvas) objectInputStream.readObject();
+				System.out.println(canvas.getProperties());
+				//System.out.println("3");
+				//objectInputStream = new ObjectInputStream(socket.getInputStream());
+				//objectOutputStream = socket.getOutputStream();
 
+				//System.out.println("4");
+				
 
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
+			} catch (NullPointerException e){
+				
 			}
 		}
 
 	}
+
 }

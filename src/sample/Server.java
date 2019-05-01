@@ -14,9 +14,9 @@ import java.io.IOException;
  */
 public class Server implements Runnable{
 
-	private boolean isStopped = false; //für dir überprüfung, ob der Server gestoppt wurde
+	private boolean isStopped; //für dir überprüfung, ob der Server gestoppt wurde
 	private Thread startedThread = null;
-	private ServerSocket sSocket = null;//Server Socket
+	private static ServerSocket sSocket;//Server Socket
 	private TextArea taHost;
 	private Socket cSocket = null; //Client Socket
 
@@ -25,11 +25,16 @@ public class Server implements Runnable{
 	 * @param taHost
 	 * 
 	 */
-	public Server(TextArea taHost){
+	public Server(TextArea taHost, boolean isStopped){
 		this.taHost = taHost;
+		this.isStopped = isStopped;
+	}
+
+	public Server(){
 		
 	}
 
+	
 	/**
 	 * Hier wird der Server gestartet
 	 */
@@ -41,13 +46,14 @@ public class Server implements Runnable{
 		openSocket(); //Socket wird geöffnet
 
 		while(!isStopped()){ //Wen der Server nicht gestoppt wurde
-
+			System.out.println(isStopped);
 			try{
 				cSocket = this.sSocket.accept(); //Wartet auf Client
 				OutputStream outputStream = cSocket.getOutputStream();
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-				objectOutputStream.writeObject(GUI.getCanvas());
-				System.out.println("Gesendet");
+				//objectOutputStream.writeObject(GUI.getCanvas());
+				//System.out.println("Gesendet");
+
 
 			} catch(IOException e) {
 				if (isStopped()) {
@@ -60,10 +66,14 @@ public class Server implements Runnable{
 				new Thread(new WorkerRunnable(cSocket,taHost)).start();//Neuer Thread => Client verarbeitung
 
 
+			this.isStopped = true;
+
 		}
+	
 		System.out.println("Server wurde beendet");
 	
 	}
+
 
 
 	/**
@@ -77,25 +87,6 @@ public class Server implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	public void startGameListeing(){
-
-		while(true){
-			try {
-				cSocket = sSocket.accept();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				ObjectInputStream ois = new ObjectInputStream(cSocket.getInputStream());
-				ObjectOutputStream oos = new ObjectOutputStream(cSocket.getOutputStream());
-
-				new Thread(new ClientHandler(cSocket,ois,oos).start());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-	}
 
 	/**
 	 * schaut ob der Server gestoppt wurde
@@ -103,6 +94,10 @@ public class Server implements Runnable{
 	 */
 	private synchronized boolean isStopped() {
 		return this.isStopped;
+	}
+
+	public static ServerSocket getsSocket() {
+		return sSocket;
 	}
 	
 }
