@@ -16,9 +16,7 @@ public class WorkerRunnable implements Runnable{
 
 	private Socket cSocket = null;
 	private TextArea taHost;
-	private int numberOfPlayers;
 
-	private List<String> playerName = new ArrayList<String>();
 
 
 	
@@ -50,16 +48,5 @@ public class WorkerRunnable implements Runnable{
 		}
 	}
 
-	
-	public List<String> getPlayerName() {
-		return playerName;
-	}
 
-	public void setPlayerName(List<String> playerName) {
-		this.playerName = playerName;
-	}
-
-	public int getNumberOfPlayers() {
-		return numberOfPlayers;
-	}
 }

@@ -20,7 +20,7 @@ public class GUI extends Application{
 
 	private double fromX = WIDTH / 4;
 	private double fromY = 300;
-	private int line_no = 0;
+	
 	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
@@ -107,7 +107,7 @@ public class GUI extends Application{
         primaryStage.show();
 
 
-        root.getChildren().add(line_no, new_line);
+        root.getChildren().add(0, new_line);
         root.setStyle("-fx-background-color: BLACK;"); //Hintergrundfarbe setzen
 
 		createPlayer();
