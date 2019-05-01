@@ -21,22 +21,12 @@ public class Player implements Runnable{
         private String name;
         private String direction = "NONE";
         private double changeAngle = 6;
-
 		private double toX;
 		private double toY;
-
-		private double speed = 3;
-
+		private double speed = 4;
 		private GraphicsContext gc;
 
-        public static void main(String[] args){
-            //Player test = new Player("Blue", "Nici", "IP", true);
-
-        }
-
-
         /**
-         @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
          @version 1.0.0
          @since 18.04.2019
          */
@@ -47,20 +37,18 @@ public class Player implements Runnable{
         	this.color = color;
             this.name = name;
             this.gc = gc;
- 
         }
 
         /**
-            @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
+
             @version 1.0.0
             @since 18.04.2019
             
             *Diese Methode rechnet mithilfe der Richtung die nächsten punkte der Linie aus.
          */
-		public void getNextLine(){
+		public boolean getNextLine(){
 			gc.setStroke(color);
 			gc.setLineWidth(5);
-
 
 			if(direction.equals("LEFT")){
 				this.angle += changeAngle; //Winkel der linie wird um 8 Grad erhöht
@@ -73,16 +61,18 @@ public class Player implements Runnable{
 			this.toX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
 			this.toY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
 
-			//checkOnCrash();
-
-
 			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
 
-			this.fromX = this.fromX + Math.sin((this.angle/360)*(2*PI))*speed;
-			this.fromY = this.fromY + Math.cos((this.angle/360)*(2*PI))*speed;
+			this.fromX = toX;
+			this.fromY = toY;
 
+			if (checkOnCrash()){
+				return true;
+			}
+			else {
+				return false;
+			}
         }
-
 
 	@Override
 	public void run() {
@@ -103,14 +93,20 @@ public class Player implements Runnable{
 		});
 	}
 
-
-
-
-	public void getConnection(){
-            //getCommection
+	public boolean checkOnCrash(){
+		//  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
+		if (600 < toX || 0 > toX || 600 < toY || 0 > toY){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 
+
+
+	//Getter / Setter
 
 	public double getFromX() {
 		return fromX;

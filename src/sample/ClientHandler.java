@@ -15,6 +15,7 @@ public class ClientHandler implements Runnable, Serializable{
 	private Socket clientSocket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	private InputStream inputStream;
 
 	public ClientHandler(Socket clientSocket, ObjectInputStream ois, ObjectOutputStream oos){
 
@@ -23,7 +24,7 @@ public class ClientHandler implements Runnable, Serializable{
 		this.oos = oos;
 	}
 
-	private InputStream inputStream;
+
 	
 	  // Server liest //
 	@Override

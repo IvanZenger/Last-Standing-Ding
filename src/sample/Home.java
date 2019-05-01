@@ -169,7 +169,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		main.setBackground(new Background(bg));
 
 		// Add => root //
-		
 		root.getChildren().addAll(btnHost,btnPlayer,lblSelectType,btnBackRoot);
 		rootScene = new Scene(root, 300, 275);
 	
@@ -194,7 +193,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		
 
 		primaryStage.setTitle("Last Standing Ding");
-		primaryStage.setResizable(false);
+		primaryStage.setResizable(false); // Damit man die Grösse nicht verändern kann.
 		primaryStage.setScene(new Scene(main, 300, 275));
 		primaryStage.show();
 	}
@@ -290,18 +289,15 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 
 		}
+
 		else if(event.getSource() == btnGameStart){
 			GUI gui = new GUI();
 			gui.start(window);
-			ClientHandler ch = new ClientHandler();
+		//	ClientHandler ch = new ClientHandler();
 			ServerData sd = new ServerData();
-			new Thread(ch).run();
+		//	new Thread(ch).run();
 			new Thread(sd).run();
 		}
-		
-
-
 	}
-
 
 }

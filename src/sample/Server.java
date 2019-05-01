@@ -89,7 +89,7 @@ public class Server implements Runnable{
 				ObjectInputStream ois = new ObjectInputStream(cSocket.getInputStream());
 				ObjectOutputStream oos = new ObjectOutputStream(cSocket.getOutputStream());
 
-				new Thread(new ClientHandler(cSocket,ois,oos).start());
+				new Thread(new ClientHandler(cSocket,ois,oos)).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
