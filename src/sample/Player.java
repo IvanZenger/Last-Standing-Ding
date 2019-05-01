@@ -32,8 +32,10 @@ public class Player implements Runnable{
 		private boolean emptyLine = false;
 		private double speed = 2.8;
 		private GraphicsContext gc;
-		private static int[][] saveWay = new int[600][600];
+		//private static int[][] saveWay = new int[600][600];
 		private int searchField = 3;
+		private static int[][] saveWay = new int[GUI.getWIDTH()][GUI.getHEIGHT()];
+
 		// 4-> speed: min: 3.5	max: 5
 		// 3-> speed: min: 2.8	max:
 		// 2-> speed: min: 2.1	max:
@@ -67,7 +69,7 @@ public class Player implements Runnable{
 		public boolean getNextLine(){
 
 
-			lineCounter++;
+
 			queue.add((int)toX);
 			queue.add((int)toY);
 
@@ -152,7 +154,7 @@ public class Player implements Runnable{
 
 	//	System.out.println(secondLastX + " " + secondLastY + "     " + toX + " " + toY);
 
-		if (toX >= 600 || toX <= 0 || toY >= 600 || toY <= 0){
+		if (toX >= GUI.getWIDTH() || toX <= 0 || toY >= GUI.getHEIGHT() || toY <= 0){
 			return true;
 		}
 

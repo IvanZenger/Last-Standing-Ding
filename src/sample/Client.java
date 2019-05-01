@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 /**
  * Hier wird der Client verwaltet
  */
-public class Client implements Runnable{
+public class Client{
 	private String ip;
 	private String name;
 
@@ -30,9 +30,9 @@ public class Client implements Runnable{
 			PrintWriter pw = new PrintWriter(osw);//Verarebeitung der Ausgabe
 
 			InputStream inputStream = socket.getInputStream();
-			ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-			Canvas canvas = (Canvas) objectInputStream.readObject();
-
+			//ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+			//Canvas canvas = (Canvas) objectInputStream.readObject();
+			
 			osw.write(name);//Ausgabe zum Server
 		//	osw.write();
 			osw.flush();
@@ -47,10 +47,8 @@ public class Client implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
-		   return true;
+
 	}
 
 	/**
@@ -62,8 +60,5 @@ public class Client implements Runnable{
 		hallo.connect("localhost","Ivan");
 	}
 
-	@Override
-	public void run() {
-		
-	}
+
 }
