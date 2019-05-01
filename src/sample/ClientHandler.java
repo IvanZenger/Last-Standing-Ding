@@ -24,6 +24,7 @@ public class ClientHandler implements Runnable, Serializable{
 	}
 
 	private InputStream inputStream;
+	private OutputStream outputStream;
 	
 	  // Server liest //
 	@Override
@@ -31,11 +32,16 @@ public class ClientHandler implements Runnable, Serializable{
 		while (true) {
 
 			try {
-
+				System.out.println("Try read Client input");
 				inputStream = clientSocket.getInputStream();
-				ois = new ObjectInputStream(inputStream);
 				int x = (int) ois.readObject();
 				System.out.println(x);
+
+				outputStream = clientSocket.getOutputStream();
+				ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+				oos.write(2);
+				oos.flush();
+
 
 			} catch (IOException e) {
 				e.printStackTrace();

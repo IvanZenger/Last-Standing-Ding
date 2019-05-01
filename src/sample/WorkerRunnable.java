@@ -38,8 +38,9 @@ public class WorkerRunnable implements Runnable{
 
 
 			String name = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
-			taHost.appendText("\n" + name);
 			System.out.println("OUT: " + name);
+			taHost.appendText("\n" + name);
+
 			GUI.playerName.add(name);
 
 			os.close();

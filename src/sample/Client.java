@@ -30,8 +30,8 @@ public class Client implements Runnable{
 			PrintWriter pw = new PrintWriter(osw);//Verarebeitung der Ausgabe
 
 			InputStream inputStream = socket.getInputStream();
-			ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-			Canvas canvas = (Canvas) objectInputStream.readObject();
+			//ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+			//Canvas canvas = (Canvas) objectInputStream.readObject();
 			
 			osw.write(name);//Ausgabe zum Server
 		//	osw.write();
@@ -39,6 +39,9 @@ public class Client implements Runnable{
 
 			socket.close();
 			//new Thread(this).start();
+			ServerData sd = new ServerData();
+			new Thread(sd).start();
+
 			return true;
 
 		} catch (UnknownHostException e) {
@@ -47,10 +50,8 @@ public class Client implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
-		   return true;
+
 	}
 
 	/**
@@ -60,6 +61,7 @@ public class Client implements Runnable{
 	public static void main(String[] args){
 		Client hallo = new Client();
 		hallo.connect("localhost","Ivan");
+
 	}
 
 	@Override

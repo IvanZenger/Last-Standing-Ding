@@ -17,46 +17,35 @@ public class ServerData implements Runnable, Serializable{
 	public void run() {
 		int port = 8000;
 		Canvas canvas;
+
+		System.out.println("run sd");
+
+		InputStream inputStream = null;
+		ObjectInputStream objectInputStream = null;
+		OutputStream outputStream = null;
+		Socket socket = null;
+		try {
+			socket = new Socket("localhost", port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		while (true) {
-			Socket socket = null;
-
-
 			try {
-				socket = new Socket("172.16.1.139", port);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			OutputStream outputStream = null;
-			try {
-				outputStream = socket.getOutputStream();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				System.out.println("try Client");
 
-			try {
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-				objectOutputStream.writeObject(2);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-
-			InputStream inputStream = null;
-			try {
 				inputStream = socket.getInputStream();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			ObjectInputStream objectInputStream = null;
-			try {
-				objectInputStream = new ObjectInputStream(inputStream);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				canvas = (Canvas) objectInputStream.readObject();
+				outputStream = socket.getOutputStream();
 
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+				objectInputStream = new ObjectInputStream(inputStream);
+
+				int x = (int) objectInputStream.readObject();
+				System.out.println(x);
+
+				outputStream = socket.getOutputStream();
+				outputStream.write(3);
+				outputStream.flush();
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -66,4 +55,5 @@ public class ServerData implements Runnable, Serializable{
 		}
 
 	}
+
 }

@@ -43,10 +43,10 @@ public class Server implements Runnable{
 		while(!isStopped()){ //Wen der Server nicht gestoppt wurde
 
 			try{
-				cSocket = this.sSocket.accept(); //Wartet auf Client
+				cSocket = sSocket.accept(); //Wartet auf Client
 				OutputStream outputStream = cSocket.getOutputStream();
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-				objectOutputStream.writeObject(GUI.getCanvas());
+				//ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+				//objectOutputStream.writeObject(GUI.getCanvas());
 				System.out.println("Gesendet");
 
 			} catch(IOException e) {
@@ -58,6 +58,7 @@ public class Server implements Runnable{
 			}
 
 				new Thread(new WorkerRunnable(cSocket,taHost)).start();//Neuer Thread => Client verarbeitung
+				new Thread(new RequestMessage(cSocket,sSocket)).run();
 
 
 		}
@@ -77,24 +78,13 @@ public class Server implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	public void startGameListeing(){
 
-		while(true){
-			try {
-				cSocket = sSocket.accept();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				ObjectInputStream ois = new ObjectInputStream(cSocket.getInputStream());
-				ObjectOutputStream oos = new ObjectOutputStream(cSocket.getOutputStream());
+	public void startGameListening(){
 
-				new Thread(new ClientHandler(cSocket,ois,oos).start());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		System.out.println("Server throws Listener");
+		new Thread(new RequestMessage(cSocket,sSocket)).run();
+		return;
 
-		}
 	}
 
 	/**
@@ -106,3 +96,4 @@ public class Server implements Runnable{
 	}
 	
 }
+

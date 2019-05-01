@@ -49,6 +49,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
 
+
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -246,9 +248,9 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 
 				 GUI.playerName.add(txtHostName.getText());
-				
-				
-				Server server = new Server(taPlayersHost); //Server starten
+
+
+				Server server = new Server(taPlayersHost);
 				new Thread(server).start();
 			}else{
 				lblFailureHost.setText("Geben sie einen Namen ein!"); //Fehlermeldung, bei leeren Feldern
@@ -293,10 +295,11 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		else if(event.getSource() == btnGameStart){
 			GUI gui = new GUI();
 			gui.start(window);
-			ClientHandler ch = new ClientHandler();
-			ServerData sd = new ServerData();
-			new Thread(ch).run();
-			new Thread(sd).run();
+			//ClientHandler ch = new ClientHandler();
+
+
+			//ServerData sd = new ServerData();
+			//new Thread(sd).run();
 		}
 		
 
