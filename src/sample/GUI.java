@@ -14,7 +14,7 @@ import java.util.*;
 
 public class GUI extends Application{
 
-	private final static int WIDTH = 600;
+	private final static int WIDTH = 900;
 	private final static int HEIGHT = 600;
 
 
