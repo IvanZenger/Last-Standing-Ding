@@ -1,58 +1,57 @@
 package sample;
 
 
+import javafx.scene.paint.Color;
 
-
-import javafx.scene.canvas.Canvas;
-
-import java.io.*;
-import java.net.ServerSocket;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.List;
-import java.io.Serializable;
-public class ClientHandler implements Runnable{
-	
+
+public class ClientHandler implements Runnable {
+
 
 	private Socket clientSocket;
-	private ObjectInputStream ois;
-	private ObjectOutputStream oos;
 	private MyCanvas canvas;
 
-	public ClientHandler(Socket clientSocket, ObjectInputStream ois, ObjectOutputStream oos, MyCanvas canvas){
+	public ClientHandler(Socket clientSocket, MyCanvas canvas) {
 
-		this.clientSocket = clientSocket;                                                            
-		this.ois = ois;
-		this.oos = oos;
+		this.clientSocket = clientSocket;
 		this.canvas = canvas;
 	}
-	
-	  // Server Listening //
+
+	// Server Listening //
 	@Override
 	public void run() {
+		ObjectInputStream ois;
+		ObjectOutputStream oos;
+
+
+
 		System.out.println("Try read Client input");
 		while (true) {
 			try {
 
 				//canvas canvasSer = new canvas();
-				ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+				oos = new ObjectOutputStream(clientSocket.getOutputStream());
 				//System.out.println(canvasSer.getProperties());
-				MyCanvas hallo = new MyCanvas(600,900);
-				oos.writeObject(hallo);
+				oos.writeObject(this.canvas);
 				oos.flush();
-				
-				ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-				Integer xclient = (Integer) in.readObject();
-				System.out.println(xclient.toString());
 
-			   /* => Client Nachricht schiken  */
-				
+				ois = new ObjectInputStream(clientSocket.getInputStream());
+				SerPlayer client = (SerPlayer) ois.readObject();
+				doSomething(client);
+				System.out.println(client.getName());
+
+				/* => Client Nachricht schiken  */
 
 
 				//oos.close();
-                   /* */
+				/* */
 
 			} catch (IOException e) {
 				e.printStackTrace();
+				return;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -61,7 +60,8 @@ public class ClientHandler implements Runnable{
 
 	}
 
-	public class canvas extends Canvas implements Serializable{
-		
+	private void doSomething(SerPlayer p){
+		System.out.println(p.getName());
 	}
+
 }

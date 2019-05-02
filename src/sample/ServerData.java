@@ -3,60 +3,51 @@ package sample;
 
 import com.sun.javafx.image.IntPixelGetter;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.paint.Color;
 
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ServerData implements Runnable{
 
+	private SerPlayer player;
+	
+	public ServerData(SerPlayer player){
 
-	//private static final long serialVersionUID = 1L;
-
+		this.player = player;
+	}
 
 	@Override
-	public void run() {
+	public void run(){
 		int port = 8000;
-		//Canvas canvas;
 
 		System.out.println("run sd");
-
-		InputStream inputStream = null;
-		ObjectInputStream objectInputStream = null;
-		OutputStream outputStream = null;
+		ObjectInputStream ois;
+		ObjectOutputStream oos;
 		Socket socket = null;
 		try {
 			socket = new Socket("127.0.0.1", port);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return;
 		}
 		
 		while (true) {
 			try {
-				//System.out.println("try Client");
+				ois = new ObjectInputStream(socket.getInputStream());
+				MyCanvas canvas = (MyCanvas) ois.readObject();
+				System.out.println(canvas.getWidth());
 
-				//System.out.println("1");
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-				Integer objServer = 333;
-				objectOutputStream.writeObject(objServer);
-				objectOutputStream.flush();
-
-				//System.out.println("1.1");
-
-				//System.out.println("2");
-				objectInputStream = new ObjectInputStream(socket.getInputStream());
-				MyCanvas canvas = (MyCanvas) objectInputStream.readObject();
-				System.out.println(canvas.getProperties());
-				//System.out.println("3");
-				//objectInputStream = new ObjectInputStream(socket.getInputStream());
-				//objectOutputStream = socket.getOutputStream();
-
-				//System.out.println("4");
-				
-
+				oos = new ObjectOutputStream(socket.getOutputStream());
+				oos.writeObject(this.player);
+				oos.flush();
+		
 			} catch (IOException e) {
-				//e.printStackTrace();       => Throws Errors
+				e.printStackTrace();       
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e){

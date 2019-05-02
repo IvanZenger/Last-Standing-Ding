@@ -30,12 +30,12 @@ public class RequestMessage implements Runnable {
 			try {
 				clientSocket = serverSocket.accept();
 
-				ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-				ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+				//ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+				//ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
 
 				System.out.println(clientSocket);
 				//oos.close();
-				new Thread(new ClientHandler(clientSocket,ois,oos,canvas)).start();
+				new Thread(new ClientHandler(clientSocket, canvas)).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
