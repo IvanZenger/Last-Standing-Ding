@@ -20,12 +20,10 @@ import javafx.stage.Stage;
 import sample.exceptions.emptyException;
 
 import javax.swing.*;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Enumeration;
 
+import static com.sun.org.apache.xalan.internal.utils.SecuritySupport.getResourceAsStream;
 
 
 /**
@@ -48,6 +46,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
 	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
+
+
+
+
 
 	public static void main(String[] args) {
 		launch(args);
@@ -191,12 +193,17 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		// Add => playerJoin //
 		playerJoinLayout.getChildren().addAll(lblplayer);
 		playerJoin = new Scene(playerJoinLayout,300,275);
-		
+
+		// Icon setzenwaasssssssssssss
+		primaryStage.getIcons().add(new Image("https://raw.githubusercontent.com/IvanZenger/Last-Standing-Ding/master/images/iconBig.png"));
 
 		primaryStage.setTitle("Last Standing Ding");
 		primaryStage.setResizable(false);
 		primaryStage.setScene(new Scene(main, 300, 275));
 		primaryStage.show();
+
+
+
 	}
 
 
@@ -230,6 +237,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				/*
 				Hier wird die IP-Adresse des Hosters ausgelesen
 				 */
+
+
 				String hostIP = null;
 				try(final DatagramSocket socket = new DatagramSocket()){
 					socket.connect(InetAddress.getByName("8.8.8.8"), 8000);
@@ -291,9 +300,11 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 		}
 		else if(event.getSource() == btnGameStart){
+
 			GUI gui = new GUI();
 			new Thread(new RequestMessage()).start();
 			gui.start(window);
+
 		}
 		
 

@@ -24,7 +24,7 @@ public class GUI extends Application{
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
 	private List<Player> players = new ArrayList<Player>();
-	
+	private int counter = 1;
 	public  static List<String> playerName = new ArrayList<String>();
 	private int numberOfPlayer = playerName.size();
 	private AnimationTimer timer = new AnimationTimer() {
@@ -81,13 +81,10 @@ public class GUI extends Application{
 
 
 
-
-
-
-
 			Player player = new Player(fromX, fromY, 180, newColor(), playerName.get(i), gc);
 			players.add(player);
 			//from_x += margin;
+
 		}
 	}
 
@@ -97,7 +94,7 @@ public class GUI extends Application{
 
         canvas.setFocusTraversable(true); //Damit die KeyInputs registriert wereden
         StackPane root = new StackPane();
-        root.getChildren().addAll(new Canvas(), canvas);
+        root.getChildren().addAll(canvas);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setResizable(false);//Damit man die Grösse des Fensters nicht verändern kann.
@@ -110,6 +107,10 @@ public class GUI extends Application{
         root.setStyle("-fx-background-color: BLACK;"); //Hintergrundfarbe setzen
 
 		createPlayer();
+
+
+
+
         timer.start(); //timer starten
 
 
@@ -119,6 +120,7 @@ public class GUI extends Application{
 		for(int i = 0; i < numberOfPlayer; i++){
 			new Thread(players.get(i)).run();
 		}
+
 
     }
 
@@ -130,6 +132,23 @@ public class GUI extends Application{
 
 
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
+
+		if (counter == 2) {
+			try {
+				gc.setStroke(Color.WHITE);
+				gc.fillText("3", (HEIGHT/2), (HEIGHT/2));
+				Thread.sleep(1000);
+				//gc.("2", (HEIGHT/2), (HEIGHT/2));
+				Thread.sleep(1000);
+				gc.fillText("1", (HEIGHT/2), (HEIGHT/2));
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+		counter++;
+
 
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
 		for (int i = 0; i < numberOfPlayer; i++) {
