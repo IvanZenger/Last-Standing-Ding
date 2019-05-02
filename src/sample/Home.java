@@ -192,6 +192,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		// Icon setzenwaasssssssssssss
 		primaryStage.getIcons().add(new Image("https://raw.githubusercontent.com/IvanZenger/Last-Standing-Ding/master/images/iconBig.png"));
 
+
 		primaryStage.setTitle("Last Standing Ding");
 		primaryStage.setResizable(false);
 		primaryStage.setScene(new Scene(main, 300, 275));
