@@ -12,21 +12,28 @@ import java.util.stream.Collectors;
 
 import static java.lang.Math.random;
 
+/**
+ * Hier werden der Client verarbeitet(wen er einem Spiel beitretten möchte )
+ */
 public class WorkerRunnable implements Runnable{
 
 	private Socket cSocket;
 	private TextArea taHost;
 
-
-
-	
+	/**
+	 * KOnstruktor
+	 * @param cSocket
+	 * @param taHost
+	 */
 	public WorkerRunnable(Socket cSocket, TextArea taHost){
 		this.cSocket = cSocket;
 		this.taHost = taHost;
 
 	}
 
-
+	/**
+	 * Hier wird der name ausgelesen und zu der "Soielerliste" hinzugefüht
+	 */
 	public void run(){
 		try{
 			InputStream is = cSocket.getInputStream();
@@ -34,7 +41,6 @@ public class WorkerRunnable implements Runnable{
 			
 			String name = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
 			taHost.appendText("\n" + name);
-		//	System.out.println("OUT: " + name);
 			GUI.playerName.add(name);
 
 			os.close();

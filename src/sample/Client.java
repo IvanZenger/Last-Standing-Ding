@@ -8,7 +8,6 @@ import java.net.Socket;
  */
 public class Client{
 	private String ip = "127.0.0.1";
-
     private int port = 8000;
 
     ObjectOutputStream oos;
@@ -18,8 +17,6 @@ public class Client{
 	 * Zum Testen des Clients
 	 */
 	public void start(GUI gui){
-
-
 
 	//	SerPlayer player = new SerPlayer(200, 200, 180, Color.BLUE, "Ivan","LEFT"); //Anders machen
 	//	GUI.playerArr.put(player.getName(),player);
@@ -36,6 +33,9 @@ public class Client{
 	}
 
 
+	/**
+     * Hier wird wird eine verbindung vom Client hergestellt
+	 */
     public boolean connect(String ip, String name) {
 
         try {
@@ -53,9 +53,10 @@ public class Client{
     }
 
 
-
-
-
+    /**
+     *
+     * @param gui
+     */
     public void communicateServer(GUI gui){
 
        // Socket socket = null; //neuer Socket

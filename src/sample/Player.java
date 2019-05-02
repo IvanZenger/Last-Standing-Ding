@@ -237,6 +237,17 @@ public class Player implements Runnable {
 		return name;
 	}
 
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
+	public void setToX(double toX) {
+		this.toX = toX;
+	}
+
+	public void setToY(double toY) {
+		this.toY = toY;
+	}
 
 	public void setDirection(String direction) {
 		this.direction = direction;

@@ -19,7 +19,7 @@ public class Server implements Runnable{
 	private static ServerSocket sSocket;//Server Socket
 	private TextArea taHost;
 	private Socket cSocket = null; //Client Socket
-	ObjectInputStream oos;
+	private ObjectInputStream oos;
 	/**
 	 * Konstruktor
 	 * @param taHost
@@ -40,16 +40,11 @@ public class Server implements Runnable{
 	 */
 	public void run(){
 
-
-
-
 		synchronized (this){
 			this.startedThread = Thread.currentThread();
 		}
 		openSocket(); //Socket wird geöffnet
 
-
-		//	System.out.println(isStopped);
 			try{
 				cSocket = sSocket.accept(); //Wartet auf Client
 
@@ -72,11 +67,6 @@ public class Server implements Runnable{
 
 
 		}
-	
-
-	
-
-
 
 
 	/**

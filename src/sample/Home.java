@@ -33,21 +33,21 @@ import java.util.Enumeration;
  */
 public class Home extends Application implements EventHandler<ActionEvent> {
 
-	Stage window;
-	Scene hostStart,playerScene,playerJoin,hostScene,rootScene,backScene,nowScene;
-	Button btnHost,btnPlayer, btnPlayerJoin, btnHostStart,btnGameStart,btnMainStart, btnBackRoot;
-	Label lblHost,lblplayer,lblFailureHost,lblFailurePlayer,lblHostIP,lblSelectType;
-	TextField txtPlayer,txtPlayerName,txtHostName;
-	TextArea taPlayersHost;
-	Image imgLogo;
+	private Stage window;
+	private Scene hostStart,playerScene,playerJoin,hostScene,rootScene,backScene,nowScene;
+	private Button btnHost,btnPlayer, btnPlayerJoin, btnHostStart,btnGameStart,btnMainStart, btnBackRoot;
+	private Label lblHost,lblplayer,lblFailureHost,lblFailurePlayer,lblHostIP,lblSelectType;
+	private TextField txtPlayer,txtPlayerName,txtHostName;
+	private TextArea taPlayersHost;
+	private Image imgLogo;
 
-	StackPane root = new StackPane(); //start menu
-	GridPane hosterStart = new GridPane(); //Ab hier kan der Hoster das Spiel starten
-	GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
-	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
-	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
-
+	private StackPane root = new StackPane(); //start menu
+	private GridPane hosterStart = new GridPane(); //Ab hier kan der Hoster das Spiel starten
+	private GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
+	private GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
+	private GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
 	private GUI gui = new GUI();
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -62,8 +62,9 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 		StackPane main = new StackPane();
 
-
-
+		/*
+		CSS-File zuweisen
+		 */
 		main.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
 		root.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
 		hosterStart.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
@@ -72,9 +73,11 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		hostLayout.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
 
 
+		//Hintergundbild
 		BackgroundFill bg = new BackgroundFill(Color.rgb(2, 21, 51),new CornerRadii(1),new Insets(0));
 
 
+		//Buttons werden zugewiesen
 		btnHost = new Button("Hoster"); //wahl des Types
 		btnPlayer = new Button("Player"); //wahl des Types
 		btnPlayerJoin = new Button("Beitreten"); //beitreten des Spieles
@@ -83,8 +86,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		btnMainStart = new Button("Start");
 		btnBackRoot= new Button("Zurück");
 
-
-
+		//Labels werden zugewiesen
 		lblHost = new Label("Du Hostest! yey");
 		lblplayer = new Label("Du bist dem Spiel beigetreten! \n Warte bis der Host das Spiel gestartet hat");
 		lblFailureHost = new Label();
@@ -96,6 +98,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		lblHostIP = new Label();
 		lblSelectType = new Label("Wähle einen Typ aus");
 
+		//Texzfelder werden zugewiesen
 		txtPlayer = new TextField();
 		txtPlayer.setPromptText("Host-IP");
 		txtPlayerName = new TextField();
@@ -103,8 +106,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		txtHostName = new TextField();
 		txtHostName.setPromptText("Name: ");
 
+		//Texareas werden zugewiesen
 		taPlayersHost = new TextArea();
-
 
 		taPlayersHost.setEditable(false);
 
@@ -138,36 +141,36 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		lblSelectType.setTranslateY(-70);
 		btnBackRoot.setTranslateY(70);
 
-		//  GridPane => HostStart //
+		//  GridPane (Platz wird dem Element zugewiesen) => HostStart //
 		GridPane.setConstraints(lblHost,0,1);
 		GridPane.setConstraints(lblHostIP,0,2);
 		GridPane.setConstraints(taPlayersHost,0,3);
 		GridPane.setConstraints(btnGameStart,0,4);
 
 
-		//GridPane => HostScene //
+		//GridPane (Platz wird dem Element zugewiesen) => HostScene //
 		GridPane.setConstraints(txtHostName,0,1);
 		GridPane.setConstraints(btnHostStart,0,2);
 		GridPane.setConstraints(lblFailureHost,0,3);
 
-		//GridPane => PlayerScene //
+		//GridPane (Platz wird dem Element zugewiese) => PlayerScene //
 		GridPane.setConstraints(txtPlayer,0,1);
 		GridPane.setConstraints(txtPlayerName, 0, 2);
 		GridPane.setConstraints(btnPlayerJoin,0,3);
 		GridPane.setConstraints(lblFailurePlayer,0,4);
 
 
-		//GridPane => PlayerJoin //
+		//GridPane(Platz wird dem Element zugewiesen  => PlayerJoin //
 		GridPane.setConstraints(lblplayer,0,1);
 
 
 
-		// Add => main //
+		// Add (Elemente werden der Scene zugewiesen) => main //
 		main.getChildren().addAll(btnMainStart,img1,btnBackRoot);
 
 		main.setBackground(new Background(bg));
 
-		// Add => root //
+		// Add (Elemente werden der Scene zugewiesen) => root //
 		
 		root.getChildren().addAll(btnHost,btnPlayer,lblSelectType,btnBackRoot);
 		rootScene = new Scene(root, 300, 275);
@@ -175,23 +178,23 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		
 		
 
-		// Add => HostStart //
+		// Add (Elemente werden der Scene zugewiesen) => HostStart //
 		hosterStart.getChildren().addAll(lblHost,taPlayersHost,btnGameStart,lblHostIP);
 		hostStart = new Scene(hosterStart,300,275);
 
-		// Add => HostScene //
+		// Add (Elemente werden der Scene zugewiesen) => HostScene //
 		hostLayout.getChildren().addAll(txtHostName,btnHostStart,lblFailureHost);
 		hostScene = new Scene(hostLayout, 300,275);
 
-		// Add => PlayerScene //
+		// Add (Elemente werden der Scene zugewiesen) => PlayerScene //
 		playerLayout.getChildren().addAll(txtPlayer,btnPlayerJoin,txtPlayerName,lblFailurePlayer);
 		playerScene = new Scene(playerLayout, 300,275);
 
-		// Add => playerJoin //
+		// Add (Elemente werden der Scene zugewiesen) => playerJoin //
 		playerJoinLayout.getChildren().addAll(lblplayer);
 		playerJoin = new Scene(playerJoinLayout,300,275);
 
-		// Icon setzenwaasssssssssssss
+		// Icon setze
 		primaryStage.getIcons().add(new Image("https://raw.githubusercontent.com/IvanZenger/Last-Standing-Ding/master/images/iconBig.png"));
 
 
@@ -210,22 +213,27 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent event) {
 
 
+		//Zurück Knopf wird gedrückt
 		if(event.getSource() != btnBackRoot){
 				backScene = window.getScene();
 
 
 		}
+		//Zurück zum voherigen Fenster
 		if(event.getSource() == btnBackRoot){
 			System.out.println("Back");
 			window.setScene(backScene);
 			window.show();
 		}
+		//Start button
 		else if(event.getSource() == btnMainStart){
 			window.setScene(rootScene);
 		}
+		//Der Typ "Hoster" wurde ausgewählt
 		else if(event.getSource() == btnHost){ // Wen der Type, Host gewählt wurde
 			window.setScene(hostScene);
 		}
+		//Hoster wird gestartet
 		else if(event.getSource() == btnHostStart){ //Wen der Host sein Namen eingegeben hat => server wird gestartet
 			if(!txtHostName.getText().equals("")) { //überprüfen auf leere Felder
 
@@ -250,8 +258,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				gui.playerName.add(txtHostName.getText());
 				gui.createPlayer(name);
 
-
-				
 				Server server = new Server(taPlayersHost, false); //Server starten
 
 				new Thread(server).start();
@@ -259,16 +265,18 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				lblFailureHost.setText("Geben sie einen Namen ein!"); //Fehlermeldung, bei leeren Feldern
 			}
 		}
+		//Der Typ Player wurde gewählt
 		else if(event.getSource() == btnPlayer){//Wen der Typ, Player gewählt wurde
 			//Server server = new Server(taPlayersHost);
 			//new Thread(server).start();
 
 
-		//	System.out.println("Player");
+			//System.out.println("Player");
 			window.setScene(playerScene);
 
 
 		}
+		//Player will dem Spiel beitreten
 		else if(event.getSource() == btnPlayerJoin){//Player möchte dem Spiel beitreten
 			Client client = new Client();
 
@@ -280,6 +288,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 					}
 					else{
 
+						//Verbindungsaufbau gelungen
 						if(client.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
 							System.out.println(txtPlayerName.getText());
 							String name = txtPlayerName.getText();
@@ -303,6 +312,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 
 		}
+		//Das Spiel wird gestartet
 		else if(event.getSource() == btnGameStart){
 
 

@@ -11,15 +11,17 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
-
+/**
+ * Hier wird das Spiel auf dem Server verwaltet
+ */
 public class GUI extends Application{
 
 	
-	private final static int WIDTH = 900;
-	private final static int HEIGHT = 600;
+	private final static int WIDTH = 900; //Spielfeld breite
+	private final static int HEIGHT = 600; //Speilfeld weite
 
 
-	private double fromX = WIDTH / 4;
+	private double fromX = WIDTH / 4; //Wird für die Start-X-Jordinaten verwendet
 	private double fromY = 300;
 	private static MyCanvas canvas = new MyCanvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
@@ -57,23 +59,21 @@ public class GUI extends Application{
 			fromY = HEIGHT/3;
 		}
 
-
-
 			SerPlayer player = new SerPlayer(fromX, fromY, 180, newColor(), name,"NONE");
 			playerArr.put(name, player);
 
-			
-			
 
 	}
 
     //Override von Application
     @Override
+	/**
+	 * Hier wird ein Spielfeld erstellt das Spiel gestartet
+	 */
     public void start(Stage primaryStage) {
 
-        canvas.setFocusTraversable(true); //Damit die KeyInputs registriert wereden
+        canvas.setFocusTraversable(true); //Damit die KeyInputs registriert werden
         StackPane root = new StackPane();
-        //root.getChildren().addAll(new Canvas(), canvas);
         root.getChildren().addAll(canvas);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
@@ -94,6 +94,7 @@ public class GUI extends Application{
 		//System.out.println(numberOfPlayer);
 
 
+		//Hier wird für jeden Spieler einen neuen Thread gestartet, inwelchem eine verbindung zum Server hergestellt wird
 		for(int i = 0; i < numberOfPlayer; i++){
 			new Thread(playerArr.get(playerName.get(i))).start();
 		}
@@ -101,6 +102,9 @@ public class GUI extends Application{
     }
     
 
+    /**
+	 * Hier werden die Daten Akutalisiert => Linien werden auf dem Canvas gezeichnet
+     */
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
@@ -132,7 +136,10 @@ public class GUI extends Application{
      */
 
 
-    
+	/**
+	 * Hier wird eine random generiert Farbe zurück gegeben für die Schlangen-farben
+	 * @return
+	 */
 	public Color newColor(){
 		Random random = new Random();
 
@@ -153,6 +160,7 @@ public class GUI extends Application{
 		return Color.rgb(red, green, blue,1);
 	}
 
+	// Getter und Setter //
 
 	public static int getWIDTH() {
 		return WIDTH;
