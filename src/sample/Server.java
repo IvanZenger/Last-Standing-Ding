@@ -19,11 +19,11 @@ public class Server implements Runnable{
 	private static ServerSocket sSocket;//Server Socket
 	private TextArea taHost;
 	private Socket cSocket = null; //Client Socket
-
+	ObjectInputStream oos;
 	/**
 	 * Konstruktor
 	 * @param taHost
-	 * 
+	 *
 	 */
 	public Server(TextArea taHost, boolean isStopped){
 		this.taHost = taHost;
@@ -31,28 +31,31 @@ public class Server implements Runnable{
 	}
 
 	public Server(){
-		
+
 	}
 
-	
+
 	/**
 	 * Hier wird der Server gestartet
 	 */
 	public void run(){
+
+
+
 
 		synchronized (this){
 			this.startedThread = Thread.currentThread();
 		}
 		openSocket(); //Socket wird geöffnet
 
-		while(!isStopped()){ //Wen der Server nicht gestoppt wurde
-			System.out.println(isStopped);
+
+		//	System.out.println(isStopped);
 			try{
 				cSocket = sSocket.accept(); //Wartet auf Client
-				//OutputStream outputStream = cSocket.getOutputStream();
-				//ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-				//objectOutputStream.writeObject(GUI.getCanvas());
-				//System.out.println("Gesendet");
+
+
+				System.out.println(cSocket);
+				System.out.println("Alles gut");
 
 
 			} catch(IOException e) {
@@ -65,14 +68,14 @@ public class Server implements Runnable{
 
 				new Thread(new WorkerRunnable(cSocket,taHost)).start();//Neuer Thread => Client verarbeitung
 
+				this.isStopped = true;
 
-			this.isStopped = true;
 
 		}
 	
-		System.out.println("Server wurde beendet");
+
 	
-	}
+
 
 
 

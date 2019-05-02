@@ -75,7 +75,7 @@ public class Player implements Runnable {
 		gc.setLineWidth(5);
 
 		if (direction.equals("LEFT")) {
-			System.out.println("LEFT");
+		//	System.out.println("LEFT");
 			this.angle += changeAngle; //Winkel der linie wird um 8 Grad erhöht
 		} else if (direction.equals("RIGHT")) {
 			this.angle -= changeAngle;//Winkel der linie wird um 8 Grad verringert

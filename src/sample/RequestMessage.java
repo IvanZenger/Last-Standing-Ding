@@ -1,5 +1,5 @@
 package sample;
-
+/*
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 
@@ -20,12 +20,12 @@ public class RequestMessage implements Runnable {
 	/*
 	public RequestMessage(ServerSocket serverSocket){
 		this.serverSocket = serverSocket;
-	} */
+	}
 	@Override
 	public void run() {
 
-		
-		while(true){
+
+
 			System.out.println("Server Listening Startet");
 			try {
 				clientSocket = serverSocket.accept();
@@ -40,8 +40,9 @@ public class RequestMessage implements Runnable {
 				e.printStackTrace();
 			}
 
-		}
+
 
 	}
-	
+
 }
+*/

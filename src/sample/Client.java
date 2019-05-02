@@ -1,66 +1,102 @@
 package sample;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * Hier wird der Client verwaltet
  */
 public class Client{
-	private String ip;
-	private String name;
+	private String ip = "127.0.0.1";
 
+    private int port = 8000;
 
-	/**
-	 * Hier wird eine verbindung zum Server hergestellt
-	 * @param ip
-	 * @param name
-	 * @return
-	 */
-	public boolean connect(String ip, String name){
-		try {
-			int port = 8000;
-			Socket socket = new Socket(ip,port); //neuer Socket
+    ObjectOutputStream oos;
 
-			OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());//Ausgabe
-			PrintWriter pw = new PrintWriter(osw);//Verarebeitung der Ausgabe
-			
-			osw.write(name);//Ausgabe zum Server
-			osw.flush();
-
-			socket.close();
-			//new Thread(this).start();
-			return true;
-
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-	}
 
 	/**
 	 * Zum Testen des Clients
 	 */
-	public static void main(String[] args){
-		Client hallo = new Client();
-		hallo.connect("localhost","Ivan");
-		SerPlayer player = new SerPlayer(200, 200, 180, Color.BLUE, "Ivan","LEFT"); //Anders machen
-		GUI.playerArr.put(player.getName(),player);
-		GUI.playerName.add(player.getName());
-		System.out.println(player);
+	public void start(GUI gui){
 
-		new Thread(new ServerData(player)).start();
-		
+
+
+	//	SerPlayer player = new SerPlayer(200, 200, 180, Color.BLUE, "Ivan","LEFT"); //Anders machen
+	//	GUI.playerArr.put(player.getName(),player);
+     //   System.out.println(GUI.playerArr);
+
+		//System.out.println(player);
+
+		//new Thread(new ServerData(player)).start();
+		//new Thread((Runnable) new GUI()).start(window);
+
+		//	gui.start();
+        communicateServer(gui);
+
 	}
 
+
+    public boolean connect(String ip, String name) {
+
+        try {
+            Socket socket = new Socket(ip, port);
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(name);
+            oos.flush();
+            System.out.println("Ferti" + name);
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+
+    }
+
+
+
+
+
+    public void communicateServer(GUI gui){
+
+       // Socket socket = null; //neuer Socket
+        //try {
+         //   socket = new Socket(ip,port);
+        //} catch (IOException e) {
+         //   e.printStackTrace();
+        //}
+        Socket socket = null;
+        try {
+            socket = new Socket(ip, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Player player = gui.playerArr.get(gui.playerName);
+
+        while (true) {
+            try {
+
+
+//				ois = new ObjectInputStream(socket.getInputStream());
+//				MyCanvas canvas = (MyCanvas) ois.readObject();
+//				System.out.println(canvas.getWidth());
+              //  System.out.println(ip + " " + port);
+
+                oos = new ObjectOutputStream(socket.getOutputStream());
+
+
+                System.out.println(player.getToX());
+                oos.writeObject(player.getToX());
+                oos.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } /*catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}*/ catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
+	}
 
 }

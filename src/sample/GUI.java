@@ -26,9 +26,10 @@ public class GUI extends Application{
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
 	//private List<SerPlayer> players = new ArrayList<SerPlayer>();
 
-	public static Map<String, SerPlayer> playerArr = new HashMap<String,SerPlayer>();
+	public Map<String, SerPlayer> playerArr = new HashMap<String,SerPlayer>();
 	public static List<String> playerName = new ArrayList<String>();
 	private int numberOfPlayer = playerName.size();
+
 	private AnimationTimer timer = new AnimationTimer() {
 		@Override
 		public void handle(long now) {
@@ -38,7 +39,7 @@ public class GUI extends Application{
 	
 
 
-	public void createPlayer(){
+	public void createPlayer(String name){
 		if(numberOfPlayer == 1){
 			fromX = WIDTH/2;
 			fromY = HEIGHT/2;
@@ -55,37 +56,15 @@ public class GUI extends Application{
 			fromX = WIDTH/3;
 			fromY = HEIGHT/3;
 		}
-		for(int i = 0; i < numberOfPlayer; i++){
 
 
-			if(numberOfPlayer == 2 && i == 1){
-				fromX = WIDTH/1.5;
-			}
-			else if(numberOfPlayer == 3){
-				if(i == 1){
-					fromX = WIDTH/1.5;
-				}
-				else if(i == 2){
-					fromX = WIDTH/2;
-					fromY = HEIGHT/3;
-				}
-			}
-			else if(numberOfPlayer == 4){
-				if(i == 1){
-					fromX = WIDTH/1.5;
-				}
-				else if(i == 2){
-					fromY = HEIGHT/1.5;
-				}else if(i == 3){
-					fromX = WIDTH/3;
-				}
-			}
 
-			SerPlayer player = new SerPlayer(fromX, fromY, 180, newColor(), playerName.get(i),"NONE");
-			playerArr.put(player.getName(), player);
+			SerPlayer player = new SerPlayer(fromX, fromY, 180, newColor(), name,"NONE");
+			playerArr.put(name, player);
+
 			
 			
-		}
+
 	}
 
     //Override von Application
@@ -125,11 +104,13 @@ public class GUI extends Application{
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
-		for (int i = 0; i < numberOfPlayer; i++) {
+		for (int i = 0; i < /*numberOfPlayer*/ playerName.size(); i++) {
 			new Thread(playerArr.get(playerName.get(i))).start();
 		}
 		
-		for (int i = 0; i < numberOfPlayer; i++) {
+		for (int i = 0; i < /*numberOfPlayer*/ playerName.size(); i++) {
+		    System.out.println(playerArr);
+            System.out.println(playerName);
 			if (playerArr.get(playerName.get(i)).getNextLine(gc)){
 				this.timer.stop();
 			}

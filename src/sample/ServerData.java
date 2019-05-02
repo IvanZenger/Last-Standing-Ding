@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*
 public class ServerData implements Runnable{
 
 	private SerPlayer player;
@@ -38,17 +38,17 @@ public class ServerData implements Runnable{
 		
 		while (true) {
 			try {
-				ois = new ObjectInputStream(socket.getInputStream());
-				MyCanvas canvas = (MyCanvas) ois.readObject();
-				System.out.println(canvas.getWidth());
+//				ois = new ObjectInputStream(socket.getInputStream());
+//				MyCanvas canvas = (MyCanvas) ois.readObject();
+//				System.out.println(canvas.getWidth());
 
 				oos = new ObjectOutputStream(socket.getOutputStream());
-				oos.writeObject(this.player);
+				oos.writeObject("Test");
 				oos.flush();
 		
 			} catch (IOException e) {
 				e.printStackTrace();       
-			} catch (ClassNotFoundException e) {
+			} /*catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e){
 				
@@ -57,4 +57,4 @@ public class ServerData implements Runnable{
 
 	}
 
-}
+}*/

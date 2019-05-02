@@ -14,7 +14,7 @@ import static java.lang.Math.random;
 
 public class WorkerRunnable implements Runnable{
 
-	private Socket cSocket = null;
+	private Socket cSocket;
 	private TextArea taHost;
 
 
@@ -25,9 +25,7 @@ public class WorkerRunnable implements Runnable{
 		this.taHost = taHost;
 
 	}
-	public WorkerRunnable(){
 
-	}
 
 	public void run(){
 		try{
@@ -36,7 +34,7 @@ public class WorkerRunnable implements Runnable{
 			
 			String name = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
 			taHost.appendText("\n" + name);
-			System.out.println("OUT: " + name);
+		//	System.out.println("OUT: " + name);
 			GUI.playerName.add(name);
 
 			os.close();

@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import sample.exceptions.emptyException;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
 
@@ -46,6 +47,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
 
+	private GUI gui = new GUI();
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -224,7 +226,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		else if(event.getSource() == btnHost){ // Wen der Type, Host gewählt wurde
 			window.setScene(hostScene);
 		}
-		else if(event.getSource() == btnHostStart){ //Wen der Host sein Nam eingegeben hat => server wird gestartet
+		else if(event.getSource() == btnHostStart){ //Wen der Host sein Namen eingegeben hat => server wird gestartet
 			if(!txtHostName.getText().equals("")) { //überprüfen auf leere Felder
 
 				/*
@@ -244,11 +246,14 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				window.setScene(hostStart);
 				taPlayersHost.appendText(txtHostName.getText()); //Hoster zu der Spilerliste zuweisen
 
+				String name = txtHostName.getText();
+				gui.playerName.add(txtHostName.getText());
+				gui.createPlayer(name);
 
-				 GUI.playerName.add(txtHostName.getText());
-				
+
 				
 				Server server = new Server(taPlayersHost, false); //Server starten
+
 				new Thread(server).start();
 			}else{
 				lblFailureHost.setText("Geben sie einen Namen ein!"); //Fehlermeldung, bei leeren Feldern
@@ -259,13 +264,13 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 			//new Thread(server).start();
 
 
-			System.out.println("Player");
+		//	System.out.println("Player");
 			window.setScene(playerScene);
 
 
 		}
 		else if(event.getSource() == btnPlayerJoin){//Player möchte dem Spiel beitreten
-			Client player = new Client();
+			Client client = new Client();
 
 				try {
 					if(txtPlayerName.getText().equals("")){ //überprüfen ob das Feld für die Namens-eingabe leer ist
@@ -275,9 +280,17 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 					}
 					else{
 
-						if(player.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
-							//GUI.playerName.add(txtPlayerName.getText());
+						if(client.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
+							System.out.println(txtPlayerName.getText());
+							String name = txtPlayerName.getText();
 
+							gui.playerName.add(name);
+							gui.createPlayer(name);
+
+								//Client client = new Client();
+								client.start(gui);
+
+							//guiClient.start(window);
 							//window.setScene(playerJoin);
 						}else{
 							lblFailurePlayer.setText("Verbindung ist Fehlgeschlagen! \nüberprüfe deine Angaben"); //Fehlermeldung, wen die Verbindung fehlgeschlagen ist
@@ -291,11 +304,12 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 		}
 		else if(event.getSource() == btnGameStart){
-			GUI gui = new GUI();
-			new Thread(new RequestMessage()).start();
+
+
+			//start signal an alle mitspieler senden
 			gui.start(window);
 
-			//gui.start(window);
+
 		}
 		
 
