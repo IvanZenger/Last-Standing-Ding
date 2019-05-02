@@ -14,6 +14,7 @@ import java.util.*;
 
 public class GUI extends Application{
 
+	
 	private final static int WIDTH = 900;
 	private final static int HEIGHT = 600;
 
@@ -23,9 +24,10 @@ public class GUI extends Application{
 	private static MyCanvas canvas = new MyCanvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
-	private List<Player> players = new ArrayList<Player>();
-	private int counter = 1;
-	public  static List<String> playerName = new ArrayList<String>();
+	//private List<SerPlayer> players = new ArrayList<SerPlayer>();
+
+	public static Map<String, SerPlayer> playerArr = new HashMap<String,SerPlayer>();
+	public static List<String> playerName = new ArrayList<String>();
 	private int numberOfPlayer = playerName.size();
 	private AnimationTimer timer = new AnimationTimer() {
 		@Override
@@ -79,12 +81,10 @@ public class GUI extends Application{
 				}
 			}
 
-
-
-			Player player = new Player(fromX, fromY, 180, newColor(), playerName.get(i), gc);
-			players.add(player);
-			//from_x += margin;
-
+			SerPlayer player = new SerPlayer(fromX, fromY, 180, newColor(), playerName.get(i),"NONE");
+			playerArr.put(player.getName(), player);
+			
+			
 		}
 	}
 
@@ -94,6 +94,7 @@ public class GUI extends Application{
 
         canvas.setFocusTraversable(true); //Damit die KeyInputs registriert wereden
         StackPane root = new StackPane();
+        //root.getChildren().addAll(new Canvas(), canvas);
         root.getChildren().addAll(canvas);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
@@ -106,11 +107,8 @@ public class GUI extends Application{
         root.getChildren().add(0, new_line);
         root.setStyle("-fx-background-color: BLACK;"); //Hintergrundfarbe setzen
 
-		createPlayer();
-
-
-
-
+		System.out.println(numberOfPlayer);
+		//createPlayer();
         timer.start(); //timer starten
 
 
@@ -118,41 +116,24 @@ public class GUI extends Application{
 
 
 		for(int i = 0; i < numberOfPlayer; i++){
-			new Thread(players.get(i)).start();
+			new Thread(playerArr.get(playerName.get(i))).start();
 		}
-
 
     }
     
 
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
-		if (counter == 2) {
-			try {
-				gc.setStroke(Color.WHITE);
-				gc.fillText("3", (HEIGHT/2), (HEIGHT/2));
-				Thread.sleep(1000);
-				//gc.("2", (HEIGHT/2), (HEIGHT/2));
-				Thread.sleep(1000);
-				gc.fillText("1", (HEIGHT/2), (HEIGHT/2));
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-		}
-		counter++;
-
-
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
 		for (int i = 0; i < numberOfPlayer; i++) {
-			new Thread(players.get(i)).run();
+			new Thread(playerArr.get(playerName.get(i))).start();
 		}
-
+		
 		for (int i = 0; i < numberOfPlayer; i++) {
-			if (players.get(i).getNextLine()){
+			if (playerArr.get(playerName.get(i)).getNextLine(gc)){
 				this.timer.stop();
 			}
+
 
 		}
 

@@ -49,8 +49,8 @@ public class Server implements Runnable{
 			System.out.println(isStopped);
 			try{
 				cSocket = sSocket.accept(); //Wartet auf Client
-				OutputStream outputStream = cSocket.getOutputStream();
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+				//OutputStream outputStream = cSocket.getOutputStream();
+				//ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 				//objectOutputStream.writeObject(GUI.getCanvas());
 				//System.out.println("Gesendet");
 

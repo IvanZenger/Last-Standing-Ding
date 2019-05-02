@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.Socket;
@@ -28,13 +29,8 @@ public class Client{
 
 			OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());//Ausgabe
 			PrintWriter pw = new PrintWriter(osw);//Verarebeitung der Ausgabe
-
-			InputStream inputStream = socket.getInputStream();
-			//ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-			//Canvas canvas = (Canvas) objectInputStream.readObject();
 			
 			osw.write(name);//Ausgabe zum Server
-		//	osw.write();
 			osw.flush();
 
 			socket.close();
@@ -53,12 +49,17 @@ public class Client{
 
 	/**
 	 * Zum Testen des Clients
-	 * @param args
 	 */
 	public static void main(String[] args){
 		Client hallo = new Client();
 		hallo.connect("localhost","Ivan");
-		new Thread(new ServerData()).start();
+		SerPlayer player = new SerPlayer(200, 200, 180, Color.BLUE, "Ivan","LEFT"); //Anders machen
+		GUI.playerArr.put(player.getName(),player);
+		GUI.playerName.add(player.getName());
+		System.out.println(player);
+
+		new Thread(new ServerData(player)).start();
+		
 	}
 
 
