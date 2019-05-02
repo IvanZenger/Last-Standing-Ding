@@ -11,7 +11,7 @@ import java.net.Socket;
 
 public class ServerData implements Runnable{
 
-	private Canvas canvas;
+
 	//private static final long serialVersionUID = 1L;
 
 
@@ -46,7 +46,7 @@ public class ServerData implements Runnable{
 
 				//System.out.println("2");
 				objectInputStream = new ObjectInputStream(socket.getInputStream());
-				canvas = (Canvas) objectInputStream.readObject();
+				MyCanvas canvas = (MyCanvas) objectInputStream.readObject();
 				System.out.println(canvas.getProperties());
 				//System.out.println("3");
 				//objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -56,7 +56,7 @@ public class ServerData implements Runnable{
 				
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();       => Throws Errors
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e){

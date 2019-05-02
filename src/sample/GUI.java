@@ -20,7 +20,7 @@ public class GUI extends Application{
 
 	private double fromX = WIDTH / 4;
 	private double fromY = 300;
-	private static Canvas canvas = new Canvas(WIDTH, HEIGHT);
+	private static MyCanvas canvas = new MyCanvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
 	private List<Player> players = new ArrayList<Player>();
@@ -118,18 +118,12 @@ public class GUI extends Application{
 
 
 		for(int i = 0; i < numberOfPlayer; i++){
-			new Thread(players.get(i)).run();
+			new Thread(players.get(i)).start();
 		}
 
 
     }
-
-
-
-
-
-
-
+    
 
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
@@ -180,11 +174,21 @@ public class GUI extends Application{
 	public Color newColor(){
 		Random random = new Random();
 
-		int red = random.nextInt(255);
-		int green = random.nextInt(255);
-		int blue = random.nextInt(255);
+		int red;
+		int green;
+		int blue;
 
-		return Color.rgb(red, green, blue);
+		int counter = 0;
+
+		do {
+			red = random.nextInt(255);
+			green = random.nextInt(255);
+			blue = random.nextInt(255);
+			counter++;
+			
+		}while(red + green + blue < 400 && counter < 20);
+
+		return Color.rgb(red, green, blue,1);
 	}
 
 
@@ -196,11 +200,11 @@ public class GUI extends Application{
 		return HEIGHT;
 	}
 
-	public static Canvas getCanvas() {
+	public static MyCanvas getCanvas() {
 		return canvas;
 	}
 
-	public static void setCanvas(Canvas canvas) {
+	public static void setCanvas(MyCanvas canvas) {
 		GUI.canvas = canvas;
 	}
 

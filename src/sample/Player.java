@@ -42,7 +42,7 @@ public class Player implements Runnable{
 
 		private Queue<Integer> queue = new LinkedList<>();
 
-
+	           
 		/**
          @version 1.0.0
          @since 18.04.2019

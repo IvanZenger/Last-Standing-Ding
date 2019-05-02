@@ -23,7 +23,6 @@ import javax.swing.*;
 import java.net.*;
 import java.util.Enumeration;
 
-import static com.sun.org.apache.xalan.internal.utils.SecuritySupport.getResourceAsStream;
 
 
 /**
@@ -46,10 +45,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
 	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
-
-
-
-
 
 	public static void main(String[] args) {
 		launch(args);
@@ -201,9 +196,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		primaryStage.setResizable(false);
 		primaryStage.setScene(new Scene(main, 300, 275));
 		primaryStage.show();
-
-
-
 	}
 
 
@@ -237,8 +229,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				/*
 				Hier wird die IP-Adresse des Hosters ausgelesen
 				 */
-
-
 				String hostIP = null;
 				try(final DatagramSocket socket = new DatagramSocket()){
 					socket.connect(InetAddress.getByName("8.8.8.8"), 8000);
@@ -300,11 +290,11 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 		}
 		else if(event.getSource() == btnGameStart){
-
 			GUI gui = new GUI();
 			new Thread(new RequestMessage()).start();
 			gui.start(window);
 
+			//gui.start(window);
 		}
 		
 

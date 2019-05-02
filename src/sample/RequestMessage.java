@@ -13,10 +13,10 @@ public class RequestMessage implements Runnable {
 
 
 
-	private Socket clientSocket = null;
+	private Socket clientSocket;
 	private ServerSocket serverSocket = Server.getsSocket();
 
-	private Canvas canvas = GUI.getCanvas();
+	private MyCanvas canvas = GUI.getCanvas();
 	/*
 	public RequestMessage(ServerSocket serverSocket){
 		this.serverSocket = serverSocket;
@@ -35,7 +35,7 @@ public class RequestMessage implements Runnable {
 
 				System.out.println(clientSocket);
 				//oos.close();
-				new Thread(new ClientHandler(clientSocket,ois,oos,canvas)).run();
+				new Thread(new ClientHandler(clientSocket,ois,oos,canvas)).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
