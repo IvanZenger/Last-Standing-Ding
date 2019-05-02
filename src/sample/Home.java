@@ -20,10 +20,7 @@ import javafx.stage.Stage;
 import sample.exceptions.emptyException;
 
 import javax.swing.*;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Enumeration;
 
 
@@ -48,7 +45,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 	GridPane playerLayout = new GridPane(); //Name un Host-IP eingabe des Players
 	GridPane playerJoinLayout = new GridPane(); //Wen der Player dem Spiel beigetreten ist
 	GridPane hostLayout = new GridPane(); //Name eingabe des Hosters
-	GridPane game = new GridPane();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -192,7 +188,10 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		// Add => playerJoin //
 		playerJoinLayout.getChildren().addAll(lblplayer);
 		playerJoin = new Scene(playerJoinLayout,300,275);
-		
+
+		// Icon setzenwaasssssssssssss
+		primaryStage.getIcons().add(new Image("https://raw.githubusercontent.com/IvanZenger/Last-Standing-Ding/master/images/iconBig.png"));
+
 
 		primaryStage.setTitle("Last Standing Ding");
 		primaryStage.setResizable(false);
@@ -279,10 +278,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 						if(player.connect(txtPlayer.getText(), txtPlayerName.getText())) { //verbindung wird hergestellt und überprüft
 							//GUI.playerName.add(txtPlayerName.getText());
 
-							//game.getChildren().add(GUI.getCanvas());
-
-							 //window.setScene(new Scene(game,600,900));
-
 							//window.setScene(playerJoin);
 						}else{
 							lblFailurePlayer.setText("Verbindung ist Fehlgeschlagen! \nüberprüfe deine Angaben"); //Fehlermeldung, wen die Verbindung fehlgeschlagen ist
@@ -298,6 +293,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		else if(event.getSource() == btnGameStart){
 			GUI gui = new GUI();
 			new Thread(new RequestMessage()).start();
+			gui.start(window);
+
 			//gui.start(window);
 		}
 		
