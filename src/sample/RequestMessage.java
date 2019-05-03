@@ -1,5 +1,5 @@
 package sample;
-/*
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 
@@ -17,10 +17,8 @@ public class RequestMessage implements Runnable {
 	private ServerSocket serverSocket = Server.getsSocket();
 
 	private MyCanvas canvas = GUI.getCanvas();
-	/*
-	public RequestMessage(ServerSocket serverSocket){
-		this.serverSocket = serverSocket;
-	}
+
+
 	@Override
 	public void run() {
 
@@ -33,9 +31,10 @@ public class RequestMessage implements Runnable {
 				//ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 				//ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
 
+				new Thread(new ClientHandler(clientSocket)).start();
 				System.out.println(clientSocket);
 				//oos.close();
-				new Thread(new ClientHandler(clientSocket, canvas)).start();
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -45,4 +44,3 @@ public class RequestMessage implements Runnable {
 	}
 
 }
-*/

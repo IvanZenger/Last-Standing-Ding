@@ -44,6 +44,7 @@ public class Client{
             oos.writeObject(name);
             oos.flush();
             System.out.println("Ferti" + name);
+            socket.close();
             return true;
 
         } catch (IOException e) {
@@ -65,6 +66,7 @@ public class Client{
         //} catch (IOException e) {
          //   e.printStackTrace();
         //}
+
         Socket socket = null;
         try {
             socket = new Socket(ip, port);
@@ -74,30 +76,8 @@ public class Client{
 
         Player player = gui.playerArr.get(gui.playerName);
 
-        while (true) {
-            try {
+        new Thread(new ServerData()).start();
 
-
-//				ois = new ObjectInputStream(socket.getInputStream());
-//				MyCanvas canvas = (MyCanvas) ois.readObject();
-//				System.out.println(canvas.getWidth());
-              //  System.out.println(ip + " " + port);
-
-                oos = new ObjectOutputStream(socket.getOutputStream());
-
-
-                System.out.println(player.getToX());
-                oos.writeObject(player.getToX());
-                oos.flush();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } /*catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}*/ catch (NullPointerException e){
-                e.printStackTrace();
-            }
-        }
 	}
 
 }

@@ -259,7 +259,6 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 				gui.createPlayer(name);
 
 				Server server = new Server(taPlayersHost, false); //Server starten
-
 				new Thread(server).start();
 			}else{
 				lblFailureHost.setText("Geben sie einen Namen ein!"); //Fehlermeldung, bei leeren Feldern
@@ -317,6 +316,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 
 
 			//start signal an alle mitspieler senden
+			new Thread(new RequestMessage()).start();
 			gui.start(window);
 
 

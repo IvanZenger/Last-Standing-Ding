@@ -108,19 +108,20 @@ public class GUI extends Application{
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
-		for (int i = 0; i < /*numberOfPlayer*/ playerName.size(); i++) {
-			new Thread(playerArr.get(playerName.get(i))).start();
-		}
-		
-		for (int i = 0; i < /*numberOfPlayer*/ playerName.size(); i++) {
-		    System.out.println(playerArr);
-            System.out.println(playerName);
-			if (playerArr.get(playerName.get(i)).getNextLine(gc)){
+//		for (int i = 0; i < /*numberOfPlayer*/ playerName.size(); i++) {
+//
+//		}
+
+		new Thread(playerArr.get(playerName.get(0))).start();
+
+//		    System.out.println(playerArr);
+//            System.out.println(playerName);
+			if (playerArr.get(playerName.get(0)).getNextLine(gc)){
 				this.timer.stop();
 			}
 
 
-		}
+
 
 		try {
 			Thread.sleep(4); //geschwindigkeit der Linie regulieren
