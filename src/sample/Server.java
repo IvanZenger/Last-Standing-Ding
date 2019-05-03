@@ -63,7 +63,7 @@ public class Server implements Runnable{
 
 				new Thread(new WorkerRunnable(cSocket,taHost)).start();//Neuer Thread => Client verarbeitung
 
-				this.isStopped = true;
+				//this.isStopped = true;
 
 
 		}
@@ -76,7 +76,6 @@ public class Server implements Runnable{
 
 		try {
 			sSocket = new ServerSocket(8000);
-			setsSocket(sSocket);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

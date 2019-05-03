@@ -2,9 +2,13 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -14,7 +18,7 @@ import java.util.*;
 /**
  * Hier wird das Spiel auf dem Server verwaltet
  */
-public class GUI extends Application{
+public class GUI extends Application implements EventHandler<ActionEvent> {
 
 	
 	private final static int WIDTH = 900; //Spielfeld breite
@@ -26,6 +30,11 @@ public class GUI extends Application{
 	private static MyCanvas canvas = new MyCanvas(WIDTH, HEIGHT);
 	private Canvas new_line = new Canvas(WIDTH, HEIGHT);
 	private GraphicsContext gc = new_line.getGraphicsContext2D();
+	private Stage window;
+	StackPane root = new StackPane();
+	StackPane gameOver = new StackPane(); //start menu
+	Scene gameOverScene;
+	Button btnGameOver;
 	//private List<SerPlayer> players = new ArrayList<SerPlayer>();
 
 	public Map<String, SerPlayer> playerArr = new HashMap<String,SerPlayer>();
@@ -38,7 +47,8 @@ public class GUI extends Application{
 			update(gc);
 		}
 	};
-	
+
+	private int counter = 0;
 
 
 	public void createPlayer(String name){
@@ -71,11 +81,18 @@ public class GUI extends Application{
 	 * Hier wird ein Spielfeld erstellt das Spiel gestartet
 	 */
     public void start(Stage primaryStage) {
+    	window = primaryStage;
 
         canvas.setFocusTraversable(true); //Damit die KeyInputs registriert werden
-        StackPane root = new StackPane();
-        root.getChildren().addAll(canvas);
 
+		Label lblGameOver = new Label("Game Over");
+		btnGameOver = new Button("Neues Spiel");
+		gameOver.getChildren().addAll(lblGameOver, btnGameOver);
+
+		btnGameOver.setOnAction(this);
+		gameOverScene = new Scene(gameOver, 300, 275);
+		
+        root.getChildren().addAll(canvas);
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setResizable(false);//Damit man die Grösse des Fensters nicht verändern kann.
         primaryStage.setTitle("Last Standing Ding"); //Titel setzen
@@ -88,7 +105,8 @@ public class GUI extends Application{
 
 		System.out.println(numberOfPlayer);
 		//createPlayer();
-        timer.start(); //timer starten
+
+		timer.start(); //timer starten
 
 
 		//System.out.println(numberOfPlayer);
@@ -107,16 +125,25 @@ public class GUI extends Application{
      */
     private void update(GraphicsContext gc){ //Bei jedem Timer Tick wird diese Methode ausgeführt
 
+		if (counter == 1){
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		counter++ ;
+
+
 		//drawLine(gc); //Linie zeichnen bzw. updaten.
 		for (int i = 0; i < /*numberOfPlayer*/ playerName.size(); i++) {
 			new Thread(playerArr.get(playerName.get(i))).start();
 		}
-		
+
 		for (int i = 0; i < /*numberOfPlayer*/ playerName.size(); i++) {
-		    System.out.println(playerArr);
-            System.out.println(playerName);
 			if (playerArr.get(playerName.get(i)).getNextLine(gc)){
 				this.timer.stop();
+				window.setScene(gameOverScene);
 			}
 
 
@@ -187,5 +214,9 @@ public class GUI extends Application{
 	}
 
 
+	@Override
+	public void handle(ActionEvent event) {
+		if(event.getSource() == btnGameOver){}
+	}
 }
 
