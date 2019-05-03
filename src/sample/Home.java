@@ -295,8 +295,8 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 							gui.createPlayer(name);
 
 								//Client client = new Client();
-								client.start(gui);
-
+								//client.start(gui);
+								client.connect(txtPlayer.getText(),txtPlayerName.getText());
 							//guiClient.start(window);
 							//window.setScene(playerJoin);
 						}else{

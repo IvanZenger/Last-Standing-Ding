@@ -7,7 +7,7 @@ import java.net.Socket;
  * Hier wird der Client verwaltet
  */
 public class Client{
-	private String ip = "127.0.0.1";
+	private String ip = "172.16.2.139";
     private int port = 8000;
 
     ObjectOutputStream oos;
@@ -28,7 +28,7 @@ public class Client{
 		//new Thread((Runnable) new GUI()).start(window);
 
 		//	gui.start();
-        communicateServer(gui);
+        //communicateServer(gui);
 
 	}
 
@@ -39,11 +39,15 @@ public class Client{
     public boolean connect(String ip, String name) {
 
         try {
-            Socket socket = new Socket(ip, port);
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(name);
-            oos.flush();
-            System.out.println("Ferti" + name);
+            int port = 8000;
+            Socket socket = new Socket(ip,port); //neuer Socket
+
+            OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());//Ausgabe
+            PrintWriter pw = new PrintWriter(osw);//Verarebeitung der Ausgabe
+
+            osw.write(name);//Ausgabe zum Server
+            osw.flush();
+
             socket.close();
             return true;
 
