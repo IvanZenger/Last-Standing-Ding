@@ -3,6 +3,9 @@ package sample;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Die folgenden Methode
+ */
 public class JUnitMethods {
     private List<String> stringArray = new ArrayList<String>();
 
@@ -16,14 +19,9 @@ public class JUnitMethods {
         }else{
             return 99;
         }
-       /* for(String string : stringArray){
-            if(string.equals(eintrag)){
-
-            }
-        }*/
     }
 
-    public void clearStringArray() {
-        this.stringArray.clear();
-    }
+	public List<String> getStringArray() {
+		return stringArray;
+	}
 }

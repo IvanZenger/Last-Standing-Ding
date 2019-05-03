@@ -12,7 +12,6 @@ import java.util.Queue;
 import static java.lang.Math.PI;
 
 /**
- * @author Nicola Zurbügg / zurbrueggn / NiciAlmighty
  * @version 1.0.0
  * @since 18.04.2019
  */
@@ -38,11 +37,11 @@ public class Player implements Runnable {
 	private static int[][] saveWay = new int[GUI.getWIDTH()][GUI.getHEIGHT()];
 
 	// 4-> speed: min: 3.5	max: 5
-	// 3-> speed: min: 2.8	max:
-	// 2-> speed: min: 2.1	max:
+	// 3-> speed: min: 2.8
+	// 2-> speed: min: 2.1
 
+	// Bei einer Queue Liste rutschten die nächsten Elemente nach, wenn man ein Element löscht
 	private Queue<Integer> queue = new LinkedList<>();
-
 
 	public Player(){}
 
@@ -58,8 +57,6 @@ public class Player implements Runnable {
 		this.name = name;
 		this.direction = direction;
 	}
-
-
 	/**
 	 * @version 1.0.0
 	 * @since 18.04.2019
@@ -68,6 +65,7 @@ public class Player implements Runnable {
 	public boolean getNextLine(GraphicsContext gc) {
 
 		lineCounter++;
+		//Vorletzte Koordinate wird gepeichert um in einem grösserem Feld suchen zu kömmen
 		queue.add((int) toX);
 		queue.add((int) toY);
 
@@ -81,35 +79,33 @@ public class Player implements Runnable {
 			this.angle -= changeAngle;//Winkel der linie wird um 8 Grad verringert
 		}
 
-
 		this.toX = this.fromX + Math.sin((this.angle / 360) * (2 * PI)) * speed;//neue X koordinate in Abhängigkeit vom Winkel berechnen
 		this.toY = this.fromY + Math.cos((this.angle / 360) * (2 * PI)) * speed; //neue Y koordinate in Abhängigkeit vom Winkel berechnen
 
-
-		//gc.strokeArc(toX-2, toY-2, 1, 1, 0,360, ArcType.ROUND);
-
-
-		if (lineCounter % 120 > 20) {
+		if (lineCounter % 120 > 20) {  //Bei jeder Iteration des Timers wird der Counter erhöht und dann wird in regelmässigen Zeitabständen wird dann keine Linie gezeichntet
 			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
 
 			emptyLine = false;
-		} else {
+		} else {       //Wenn man keine Linie zeichnet:
 			Paint color = gc.getStroke();
-			gc.setStroke(Color.BLACK);
+
+			//Die vorletzten Koordinaten aus der Queue herauslesen und wieder hinein speichern
 			int x = queue.peek();
-			queue.remove();
+			queue.remove(); //
 			int y = queue.peek();
 			queue.remove();
 			queue.add(x);
 			queue.add(y);
+			//alter Kreis übermalen
+			gc.setStroke(Color.BLACK);
 			gc.strokeArc(x - 1, y - 1, 3, 3, 0, 360, ArcType.ROUND);
+			//neuer Kreis zeichnen
 			gc.setStroke(color);
 			gc.strokeArc(toX - 1, toY - 1, 1, 1, 0, 360, ArcType.ROUND);
 
 			emptyLine = true;
 		}
-
-
+		
 		if (checkOnCrash(emptyLine)) {
 			return true;
 		}
@@ -119,7 +115,7 @@ public class Player implements Runnable {
 
 		return false;
 	}
-
+	// Diese Methode ändert bei Key Events die Richtung der Linie
 	@Override
 	public void run() {
 		GUI.getCanvas().setOnKeyPressed(event -> {
@@ -139,7 +135,10 @@ public class Player implements Runnable {
 			}
 		});
 	}
-
+	/**
+	Diese Methode überprüft mithilfe eines 2d Arrays, ob man sich in nahe (so nahe dass sich die Linien überlappen) eines bereits gezeichneten Pixels befindet.
+	@param emptyLine wenn diese Variable true ist, werden die Prüfungen und das speichern des weges ausgesetzt.
+	 */
 	public boolean checkOnCrash(boolean emptyLine) {
 		//  System.out.println(Integer.toHexString(bi.getRGB(50, 550)));
 
@@ -150,12 +149,17 @@ public class Player implements Runnable {
 
 		//	System.out.println(secondLastX + " " + secondLastY + "     " + toX + " " + toY);
 
-		if (toX >= GUI.getWIDTH() || toX <= 0 || toY >= GUI.getHEIGHT() || toY <= 0) {
+		if (toX >= GUI.getWIDTH() || toX <= 0 || toY >= GUI.getHEIGHT() || toY <= 0) {// Prüfung, ob man ausserhalb des Spielfeldes ist.
 			return true;
-		} else if (saveWay[(int) toX][(int) toY] == 1 && !emptyLine) {
+		} else if (saveWay[(int) toX][(int) toY] == 1 && !emptyLine) {  //einfach Prüfung ob man einen abgespeicherten Pixel getroffen hat.
 			return true;
 		}
 
+
+		/*
+		Da es unawahrscheinlich ist, dass die neue Kordinate genau auf den Belegten Platz im Array
+		triff, wird von dem Pixel aus in 3x3 felder im array nach abgesepeicherten Pixeln gesucht.
+		 */
 		//oben Links suchen
 		try {
 
@@ -166,7 +170,7 @@ public class Player implements Runnable {
 					}
 				}
 			}
-//oben rechts suchen
+			//oben rechts suchen
 			for (int i = 1; i <= searchField; i++) {
 				for (int j = 1; j <= searchField; j++) {
 
@@ -175,7 +179,7 @@ public class Player implements Runnable {
 					}
 				}
 			}
-//unten links suchen
+			//unten links suchen
 			for (int i = 1; i <= searchField; i++) {
 				for (int j = 1; j <= searchField; j++) {
 
@@ -196,13 +200,11 @@ public class Player implements Runnable {
 		} catch (ArrayIndexOutOfBoundsException e) { //wenn man zu nahe an den Rand fährt
 			return true;
 		}
-		if (saveWay[(int) toX][(int) toY] == 0 && !emptyLine) {
-			saveWay[(int) toX][(int) toY] = 1;
+		if (saveWay[(int) toX][(int) toY] == 0 && !emptyLine) {  //Wenn man die Linie am Zeichnen ist und die nächste errechnete Koordinate leer ist.
+			saveWay[(int) toX][(int) toY] = 1;                   // wird sie als belegt gepeichert
 			return false;
 		}
-
-		return false;
-
+		return false; // Java Konform
 	}
 
 

@@ -18,13 +18,12 @@ import java.util.*;
 /**
  * Hier wird das Spiel auf dem Server verwaltet
  */
-public class GUI extends Application implements EventHandler<ActionEvent> {
+public class GUI extends Application {
 
 	
 	private final static int WIDTH = 900; //Spielfeld breite
 	private final static int HEIGHT = 600; //Speilfeld weite
-
-
+	
 	private double fromX = WIDTH / 4; //Wird für die Start-X-Jordinaten verwendet
 	private double fromY = 300;
 	private static MyCanvas canvas = new MyCanvas(WIDTH, HEIGHT);
@@ -34,8 +33,7 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 	StackPane root = new StackPane();
 	StackPane gameOver = new StackPane(); //start menu
 	Scene gameOverScene;
-	Button btnGameOver;
-	//private List<SerPlayer> players = new ArrayList<SerPlayer>();
+
 
 	public Map<String, SerPlayer> playerArr = new HashMap<String,SerPlayer>();
 	public static List<String> playerName = new ArrayList<String>();
@@ -86,10 +84,9 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
         canvas.setFocusTraversable(true); //Damit die KeyInputs registriert werden
 
 		Label lblGameOver = new Label("Game Over");
-		btnGameOver = new Button("Neues Spiel");
-		gameOver.getChildren().addAll(lblGameOver, btnGameOver);
 
-		btnGameOver.setOnAction(this);
+		gameOver.getChildren().addAll(lblGameOver);
+
 		gameOverScene = new Scene(gameOver, 300, 275);
 		
         root.getChildren().addAll(canvas);
@@ -212,11 +209,6 @@ public class GUI extends Application implements EventHandler<ActionEvent> {
 	public void setGc(GraphicsContext gc) {
 		this.gc = gc;
 	}
-
-
-	@Override
-	public void handle(ActionEvent event) {
-		if(event.getSource() == btnGameOver){}
-	}
+	
 }
 

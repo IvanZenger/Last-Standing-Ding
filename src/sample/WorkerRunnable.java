@@ -1,16 +1,12 @@
 package sample;
 
 import javafx.scene.control.TextArea;
-import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
-import static java.lang.Math.random;
+
 
 /**
  * Hier werden der Client verarbeitet(wen er einem Spiel beitretten möchte )

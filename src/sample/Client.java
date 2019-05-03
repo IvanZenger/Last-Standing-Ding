@@ -16,23 +16,6 @@ public class Client{
 	/**
 	 * Zum Testen des Clients
 	 */
-	public void start(GUI gui){
-
-	//	SerPlayer player = new SerPlayer(200, 200, 180, Color.BLUE, "Ivan","LEFT"); //Anders machen
-	//	GUI.playerArr.put(player.getName(),player);
-     //   System.out.println(GUI.playerArr);
-
-		//System.out.println(player);
-
-		//new Thread(new ServerData(player)).start();
-		//new Thread((Runnable) new GUI()).start(window);
-
-		//	gui.start();
-        //communicateServer(gui);
-
-	}
-
-
 	/**
      * Hier wird wird eine verbindung vom Client hergestellt
 	 */
@@ -63,14 +46,7 @@ public class Client{
      * @param gui
      */
     public void communicateServer(GUI gui){
-
-       // Socket socket = null; //neuer Socket
-        //try {
-         //   socket = new Socket(ip,port);
-        //} catch (IOException e) {
-         //   e.printStackTrace();
-        //}
-
+    	
         Socket socket = null;
         try {
             socket = new Socket(ip, port);

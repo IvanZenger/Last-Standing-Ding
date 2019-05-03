@@ -9,6 +9,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.Key;
 
+/**
+ * Hier werden die Anfragen der Clients verarbeitet
+ * => Wird nicht verwendet 
+ */
 public class RequestMessage implements Runnable {
 
 
@@ -19,21 +23,23 @@ public class RequestMessage implements Runnable {
 	private MyCanvas canvas = GUI.getCanvas();
 
 
+
+
 	@Override
+	/**
+	 * Hier wird der Client weiter in einen neuen Thread geworfen
+	 */
 	public void run() {
 
 
 
 			System.out.println("Server Listening Startet");
 			try {
-				clientSocket = serverSocket.accept();
+				clientSocket = serverSocket.accept(); //Wartet auf Client
 
-				//ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-				//ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-
+				//Neuer Thread wo der Client behandelt wird
 				new Thread(new ClientHandler(clientSocket)).start();
-				System.out.println(clientSocket);
-				//oos.close();
+				System.out.println(clientSocket);;
 
 			} catch (IOException e) {
 				e.printStackTrace();
