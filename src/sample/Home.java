@@ -98,7 +98,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		lblHostIP = new Label();
 		lblSelectType = new Label("Wähle einen Typ aus");
 
-		//Texzfelder werden zugewiesen
+		//Textfelder werden zugewiesen
 		txtPlayer = new TextField();
 		txtPlayer.setPromptText("Host-IP");
 		txtPlayerName = new TextField();
@@ -268,8 +268,7 @@ public class Home extends Application implements EventHandler<ActionEvent> {
 		else if(event.getSource() == btnPlayer){//Wen der Typ, Player gewählt wurde
 			//Server server = new Server(taPlayersHost);
 			//new Thread(server).start();
-
-
+			
 			//System.out.println("Player");
 			window.setScene(playerScene);
 

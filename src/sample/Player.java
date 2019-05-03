@@ -89,7 +89,7 @@ public class Player implements Runnable {
 		//gc.strokeArc(toX-2, toY-2, 1, 1, 0,360, ArcType.ROUND);
 
 
-		if (lineCounter % 120 > 20 && lineCounter > 21) {
+		if (lineCounter % 120 > 20) {
 			gc.strokeLine(this.fromX, this.fromY, toX, toY); //neue Linie zeichnen
 
 			emptyLine = false;
@@ -152,7 +152,7 @@ public class Player implements Runnable {
 
 		if (toX >= GUI.getWIDTH() || toX <= 0 || toY >= GUI.getHEIGHT() || toY <= 0) {
 			return true;
-		} else if (saveWay[(int) toX][(int) toY] == 1) {
+		} else if (saveWay[(int) toX][(int) toY] == 1 && !emptyLine) {
 			return true;
 		}
 
@@ -161,7 +161,7 @@ public class Player implements Runnable {
 
 			for (int i = 1; i <= searchField; i++) {
 				for (int j = 1; j <= searchField; j++) {
-					if (saveWay[(int) toX - i][(int) toY - j] == 1 && (int) toX - i != fromX && (int) toY - j != fromY && (int) toX - i != secondLastX && (int) toY - j != secondLastY) {
+					if (saveWay[(int) toX - i][(int) toY - j] == 1 && (int) toX - i != fromX && (int) toY - j != fromY && (int) toX - i != secondLastX && (int) toY - j != secondLastY && !emptyLine) {
 						return true;
 					}
 				}
@@ -170,7 +170,7 @@ public class Player implements Runnable {
 			for (int i = 1; i <= searchField; i++) {
 				for (int j = 1; j <= searchField; j++) {
 
-					if (saveWay[(int) toX + i][(int) toY - j] == 1 && (int) toX + i != fromX && (int) toY - j != fromY && (int) toX + i != secondLastX && (int) toY + j != secondLastY) {
+					if (saveWay[(int) toX + i][(int) toY - j] == 1 && (int) toX + i != fromX && (int) toY - j != fromY && (int) toX + i != secondLastX && (int) toY + j != secondLastY && !emptyLine) {
 						return true;
 					}
 				}
@@ -179,7 +179,7 @@ public class Player implements Runnable {
 			for (int i = 1; i <= searchField; i++) {
 				for (int j = 1; j <= searchField; j++) {
 
-					if (saveWay[(int) toX - i][(int) toY + j] == 1 && (int) toX - i != fromX && (int) toY + j != fromY && (int) toX - i != secondLastX && (int) toY - j != secondLastY) {
+					if (saveWay[(int) toX - i][(int) toY + j] == 1 && (int) toX - i != fromX && (int) toY + j != fromY && (int) toX - i != secondLastX && (int) toY - j != secondLastY && !emptyLine) {
 						return true;
 					}
 				}
@@ -188,7 +188,7 @@ public class Player implements Runnable {
 			for (int i = 1; i <= searchField; i++) {
 				for (int j = 1; j <= searchField; j++) {
 
-					if (saveWay[(int) toX + i][(int) toY + j] == 1 && (int) toX + i != fromX && (int) toY + j != fromY && (int) toX + i != secondLastX && (int) toY + j != secondLastY) {
+					if (saveWay[(int) toX + i][(int) toY + j] == 1 && (int) toX + i != fromX && (int) toY + j != fromY && (int) toX + i != secondLastX && (int) toY + j != secondLastY && !emptyLine) {
 						return true;
 					}
 				}
